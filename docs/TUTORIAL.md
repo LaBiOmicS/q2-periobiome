@@ -1,8 +1,35 @@
 # Tutorial
 
-This tutorial runs `q2-periodontitis` on a subgingival 16S rRNA dataset in
-QIIME 2 (amplicon 2024.10). [validation/run_pipeline.sh](../validation/run_pipeline.sh)
-is a complete worked example on public data, from raw reads to results.
+This tutorial runs `q2-periodontitis` on subgingival 16S rRNA data in
+QIIME 2 (2026.10 or amplicon 2024.10).
+
+## 0. Quick start on real data (a few minutes)
+
+[`docs/tutorial/run_tutorial.sh`](tutorial/run_tutorial.sh) processes 18
+samples of Chen et al. (2018, SRA SRP075100; V4, 515F/806R) from raw reads
+to results. They are listed in [`docs/tutorial/samples.tsv`](tutorial/samples.tsv):
+6 healthy subjects, and 6 subjects with periodontitis sampled at the same
+tooth before and after non-surgical therapy.
+
+```bash
+conda activate qiime2-2026.10
+bash docs/tutorial/run_tutorial.sh tutorial-run
+```
+
+The script downloads the reads (~45 MB, MD5-checked) and the eHOMD V15.23
+reference, denoises with DADA2, assigns taxonomy with VSEARCH against
+eHOMD, and runs the three actions of the plugin. It writes:
+
+* `summary.qzv`: complex profiles, index distributions by group
+  (`health`, `periodontitis-before`, `periodontitis-after`) and the
+  quality-control summary;
+* `export/indices/indices.tsv`: SMDI, SMDI_simplified, PC2014_moderate
+  and the `qc_*` columns per sample;
+* `export/deltas/deltas.tsv`: change after therapy per site.
+
+With six subjects per group, the tutorial shows how the plugin works. It
+is not a test of the indices; see [VALIDATION.md](VALIDATION.md) for that.
+The sections below explain each step for your own data.
 
 ## 1. Inputs
 
@@ -11,7 +38,9 @@ You need:
 1. **A feature table of raw counts** (`FeatureTable[Frequency]`, e.g. from
    DADA2). Do not rarefy it: the indices are log-ratios of counts.
 2. **A species-level taxonomy** (`FeatureData[Taxonomy]`). Use a classifier
-   trained on the eHOMD 16S RefSeq, trimmed to your primers:
+   trained on the eHOMD 16S RefSeq, trimmed to your primers
+   ([`scripts/train_classifiers.sh`](../scripts/train_classifiers.sh) does
+   this for V4, V3-V4 and V1-V2):
 
    ```bash
    qiime feature-classifier extract-reads --i-sequences ehomd-refseq.qza \
@@ -124,8 +153,8 @@ qiime metadata tabulate --m-input-file deltas.qza --o-visualization deltas.qzv
 
 Negative deltas mean the index decreased (less dysbiotic). Test whether the
 median change differs from zero with a paired test, such as the Wilcoxon
-signed-rank test in `validation/evaluate.py`. Use one row per subject, or
-per site if sites are the unit you analyse.
+signed-rank test (`scipy.stats.wilcoxon` on the exported deltas). Use one
+row per subject, or per site if sites are the unit you analyse.
 
 ## 5. Reporting
 

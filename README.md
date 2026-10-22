@@ -4,7 +4,7 @@
 
 [![CI](https://github.com/LaBiOmicS/q2-periodontitis/actions/workflows/ci.yml/badge.svg)](https://github.com/LaBiOmicS/q2-periodontitis/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![QIIME 2](https://img.shields.io/badge/QIIME%202-2024.10%2B-purple.svg)](https://qiime2.org)
+[![QIIME 2](https://img.shields.io/badge/QIIME%202-2024.10%20%7C%202026.10-purple.svg)](https://qiime2.org)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB.svg)](https://www.python.org)
 
 `q2-periodontitis` takes a feature table and its taxonomy and reports, for every sample:
@@ -22,30 +22,51 @@ The scientific basis, formulas and limits are in **[docs/THEORY.md](docs/THEORY.
 
 ## 1. Installation
 
-Developed and tested with the official **QIIME 2 amplicon 2024.10** distribution:
+`q2-periodontitis` is tested in CI against the official **QIIME 2 2026.10**
+release and the **QIIME 2 amplicon 2024.10** distribution. Since 2026.4 the
+amplicon plugins ship in the main QIIME 2 distribution.
 
 ```bash
-wget https://data.qiime2.org/distro/amplicon/qiime2-amplicon-2024.10-py310-linux-conda.yml
-conda env create -n q2-amplicon-2024.10 --file qiime2-amplicon-2024.10-py310-linux-conda.yml
-conda activate q2-amplicon-2024.10
-pip install git+https://github.com/LaBiOmicS/q2-periodontitis.git
+# QIIME 2 2026.10
+wget https://raw.githubusercontent.com/qiime2/distributions/refs/heads/dev/2026.10/qiime2/released/rachis-qiime2-linux-64-conda.yml
+conda env create -n qiime2-2026.10 --file rachis-qiime2-linux-64-conda.yml
+conda activate qiime2-2026.10
+pip install --no-deps git+https://github.com/LaBiOmicS/q2-periodontitis.git
 qiime dev refresh-cache
+qiime periodontitis --help
 ```
+
+For QIIME 2 amplicon 2024.10, use
+`https://data.qiime2.org/distro/amplicon/qiime2-amplicon-2024.10-py310-linux-conda.yml`
+as the environment file. Every runtime dependency of the plugin is part of
+both distributions, hence `--no-deps`.
 
 For development:
 
 ```bash
 git clone https://github.com/LaBiOmicS/q2-periodontitis.git
 cd q2-periodontitis
-conda env update -n q2-amplicon-2024.10 --file environment.yml   # adds pytest
-pip install -e .
-pytest
+conda env update -n qiime2-2026.10 --file environment.yml   # pytest, pytest-cov, flake8
+pip install -e . --no-deps
+pytest && flake8
 ```
 
 ## 2. Recommended input
 
 * A feature table of **raw counts** (do not rarefy or normalize).
-* A taxonomy classified to **species** against an **oral** reference, ideally eHOMD. [validation/run_pipeline.sh](validation/run_pipeline.sh) shows how to train a naive Bayes classifier on eHOMD for your amplicon region. With generic databases, fewer reads reach species level, and the complex profiles then cover a smaller part of the community. The `qc_*` columns show how much.
+* A taxonomy classified to **species** against an **oral** reference,
+  ideally eHOMD. [scripts/train_classifiers.sh](scripts/train_classifiers.sh)
+  trains naive Bayes classifiers on eHOMD V15.23 for V4 (515F/806R), V3-V4
+  (341F/805R) and V1-V2 (27F/338R). A classifier is tied to the
+  scikit-learn version that trained it, so train it in the QIIME 2
+  environment you will classify with. Alternatively, use
+  `classify-consensus-vsearch` against full-length eHOMD, as in the
+  [tutorial](docs/TUTORIAL.md). With generic databases, fewer reads reach
+  species level, and the complex profiles then cover a smaller part of the
+  community. The `qc_*` columns show how much.
+
+Every action has usage examples (`qiime periodontitis <action> --example-data <dir>`
+writes them out, and they are run by the test suite).
 
 ## 3. Usage
 

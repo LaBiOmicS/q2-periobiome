@@ -6,12 +6,33 @@ on:
   pull_request:
     branches: [ main, master ]
 
-env:
-  QIIME2_RELEASE: "2024.10"
-
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: flake8
+        run: |
+          pip install "flake8>=7" flake8-pyproject
+          flake8
+
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Oldest supported: the 2024.10 amplicon distribution
+          - qiime2: "2024.10"
+            env-url: "https://data.qiime2.org/distro/amplicon/qiime2-amplicon-2024.10-py310-linux-conda.yml"
+          # Current release (the amplicon plugins are in the main
+          # distribution since 2026.4)
+          - qiime2: "2026.10"
+            env-url: "https://raw.githubusercontent.com/qiime2/distributions/refs/heads/dev/2026.10/qiime2/released/rachis-qiime2-linux-64-conda.yml"
+    name: test (QIIME 2 ${{ matrix.qiime2 }})
     defaults:
       run:
         shell: bash -l {0}
@@ -20,31 +41,35 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Download official QIIME 2 amplicon environment file
-        run: |
-          wget -q -O qiime2-env.yml \
-            "https://data.qiime2.org/distro/amplicon/qiime2-amplicon-${QIIME2_RELEASE}-py310-linux-conda.yml"
+      - name: Download official QIIME 2 environment file
+        run: wget -q -O qiime2-env.yml "${{ matrix.env-url }}"
 
-      - name: Create QIIME 2 amplicon environment
+      - name: Create QIIME 2 environment
         uses: mamba-org/setup-micromamba@v1
         with:
           environment-file: qiime2-env.yml
-          environment-name: q2-amplicon
+          environment-name: q2-${{ matrix.qiime2 }}
           cache-environment: true
 
-      - name: Add plugin requirements (environment.yml)
-        run: |
-          micromamba env update -n q2-amplicon -f environment.yml -y
+      - name: Add test tooling (environment.yml)
+        run: micromamba env update -n q2-${{ matrix.qiime2 }} -f environment.yml -y
 
       - name: Install q2-periodontitis
         run: |
-          pip install -e .
+          pip install -e . --no-deps
           qiime dev refresh-cache
           qiime periodontitis --help
 
-      - name: Run Pytest
+      - name: Run tests with coverage
         run: |
-          pytest --verbose
+          pytest --cov=q2_periodontitis --cov-report=term-missing \
+                 --cov-report=xml q2_periodontitis validation/analysis/tests
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-${{ matrix.qiime2 }}
+          path: coverage.xml
 
       - name: Check wheel contents
         run: |
@@ -52,6 +77,6 @@ jobs:
           python -m zipfile -l dist/*.whl | tee wheel-contents.txt
           for f in q2_periodontitis/citations.bib q2_periodontitis/data/socransky_complexes.tsv \
                    q2_periodontitis/assets/web/index.html q2_periodontitis/assets/web/js/vega.min.js \
-                   entry_points.txt; do
+                   q2_periodontitis/_examples.py entry_points.txt; do
             grep -q "$f" wheel-contents.txt || { echo "missing $f"; exit 1; }
           done

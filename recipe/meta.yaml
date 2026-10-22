@@ -1,0 +1,79 @@
+# conda recipe for q2-periodontitis (conda-build / bioconda format).
+#
+# qiime2 and q2-types are only published on the QIIME 2 channel
+# (https://packages.qiime2.org), not on conda-forge or bioconda, so this
+# recipe cannot be accepted by either today. Build it for an own channel:
+#
+#   conda build recipe \
+#     -c https://packages.qiime2.org/qiime2/2026.10/qiime2/released \
+#     -c conda-forge -c bioconda
+#   anaconda upload --user labiomics <path to the .conda file>
+#
+# Set Q2P_LOCAL_SOURCE=1 to build from this checkout instead of the tag.
+{% set name = "q2-periodontitis" %}
+{% set version = "2026.10.0" %}
+
+package:
+  name: {{ name }}
+  version: {{ version }}
+
+source:
+{% if environ.get("Q2P_LOCAL_SOURCE") %}
+  path: ..
+{% else %}
+  url: https://github.com/LaBiOmicS/q2-periodontitis/archive/refs/tags/{{ version }}.tar.gz
+  # TODO-AUTHOR: fill in after tagging: curl -sL <url> | sha256sum
+  sha256: 0000000000000000000000000000000000000000000000000000000000000000
+{% endif %}
+
+build:
+  number: 0
+  noarch: python
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
+  run_exports: []
+
+requirements:
+  host:
+    - python >=3.10
+    - pip
+    - setuptools >=64
+  run:
+    - python >=3.10
+    - qiime2 >=2024.10
+    - q2-types >=2024.10
+    - numpy
+    - pandas
+    - scipy
+    - biom-format
+    - jinja2
+
+test:
+  requires:
+    - pytest
+    - q2cli
+  imports:
+    - q2_periodontitis
+    - q2_periodontitis.plugin_setup
+  commands:
+    - qiime dev refresh-cache
+    - qiime periodontitis --help
+    - pytest -q --pyargs q2_periodontitis
+
+about:
+  home: https://github.com/LaBiOmicS/q2-periodontitis
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE
+  summary: QIIME 2 plugin for Socransky complexes and the Subgingival Microbial Dysbiosis Index (SMDI) in 16S rRNA amplicon data.
+  description: |
+    Collapses subgingival 16S rRNA amplicon profiles into the Socransky
+    complexes (only species documented by Socransky et al. 1998 and
+    Socransky & Haffajee 2002), and computes the SMDI (Chen, Marsh &
+    Al-Hebshi 2022), its simplified form, the moderate-evidence taxa of
+    Perez-Chaparro et al. (2014) and quality-control measures.
+  doc_url: https://github.com/LaBiOmicS/q2-periodontitis/blob/main/docs/TUTORIAL.md
+  dev_url: https://github.com/LaBiOmicS/q2-periodontitis
+
+extra:
+  recipe-maintainers:
+    - TODO-AUTHOR  # GitHub handle

@@ -1,0 +1,9 @@
+channels:
+- https://packages.qiime2.org/qiime2/2024.10/amplicon/released
+- conda-forge
+- bioconda
+dependencies:
+  - qiime2-amplicon
+  - pip
+  - pip:
+    - q2-periodontitis@git+https://github.com/LaBiOmicS/q2-periodontitis.git@2026.10.0

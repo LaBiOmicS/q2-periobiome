@@ -1,0 +1,9 @@
+channels:
+- https://packages.qiime2.org/qiime2/2026.10/qiime2/released
+- conda-forge
+- bioconda
+dependencies:
+  - rachis-qiime2
+  - pip
+  - pip:
+    - q2-periodontitis@git+https://github.com/LaBiOmicS/q2-periodontitis.git@2026.10.0

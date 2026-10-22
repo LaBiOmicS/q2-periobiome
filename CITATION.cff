@@ -1,12 +1,25 @@
 cff-version: 1.2.0
-message: "If you use q2-periodontitis in your research, please cite it as below."
+message: "If you use q2-periodontitis in your research, please cite it as below, together with the papers that define the complexes and indices (see README.md, Citations)."
+title: "q2-periodontitis: a QIIME 2 plugin for Socransky complexes and the Subgingival Microbial Dysbiosis Index in 16S rRNA amplicon data"
+version: 2026.10.0
+# Set to the tag date when the release is tagged
+date-released: 2026-10-23
+url: "https://github.com/LaBiOmicS/q2-periodontitis"
+repository-code: "https://github.com/LaBiOmicS/q2-periodontitis"
+license: MIT
+type: software
 authors:
   - family-names: "Menegidio"
     given-names: "Fabiano"
-title: "q2-periodontitis: QIIME 2 Plugin for Subgingival Biofilm Ecological Characterization, Socransky Complexes Collapse, and Dysbiosis Indices"
-version: 2026.1.0
-date-released: 2026-08-31
-url: "https://github.com/LaBiOmicS/q2-periodontitis"
+    email: "fmenegidio@gmail.com"
+    # TODO-AUTHOR: ORCID, e.g. https://orcid.org/0000-0000-0000-0000
+    # orcid: "https://orcid.org/[TODO-AUTHOR]"
+    # TODO-AUTHOR: affiliation
+    # affiliation: "[TODO-AUTHOR]"
+# TODO-AUTHOR: add the Zenodo concept DOI after the first deposit
+# identifiers:
+#   - type: doi
+#     value: "10.5281/zenodo.[TODO]"
 keywords:
   - periodontitis
   - qiime2

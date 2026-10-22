@@ -122,7 +122,6 @@ class TestParser(TestPluginBase):
                 self.synonyms)[1],
             "Parvimonas micra")
 
-
     def test_ehomd_bracketed_genus_and_placeholder_genera(self):
         self.assertEqual(
             parse_taxonomy_string(
@@ -339,9 +338,6 @@ class TestCollapseComplexes(CollapseFixture):
                          ["SMDI", "SMDI_simplified", "PC2014_moderate",
                           "qc_depth", "qc_assigned_fraction",
                           "qc_species_fraction"])
-
-
-
 
     def test_smdi_simplified_hand_computed(self):
         _, indices, _ = collapse_complexes(self.table, self.taxonomy)

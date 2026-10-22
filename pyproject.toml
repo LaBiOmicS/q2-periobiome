@@ -50,3 +50,15 @@ q2_periodontitis = [
     "assets/web/js/*",
     "tests/data/*"
 ]
+
+[tool.flake8]
+max-line-length = 99
+exclude = [".git", "__pycache__", "build", "dist", "*.egg-info",
+           "q2_periodontitis/assets", "validation/search"]
+
+[tool.pytest.ini_options]
+testpaths = ["q2_periodontitis", "validation/analysis/tests"]
+
+[tool.coverage.run]
+source = ["q2_periodontitis"]
+omit = ["q2_periodontitis/tests/*"]

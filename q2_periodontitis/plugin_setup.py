@@ -28,6 +28,7 @@ from ._format import (
 )
 from ._methods import collapse_complexes, delta_indices
 from ._visualizer import summarize
+from . import _examples as ex
 
 citations = Citations.load('citations.bib', package='q2_periodontitis')
 
@@ -37,7 +38,10 @@ plugin = Plugin(
     website='https://github.com/LaBiOmicS/q2-periodontitis',
     package='q2_periodontitis',
     citations=[citations['socransky1998microbial'], citations['socransky2002dental']],
-    description='QIIME 2 plugin that collapses subgingival amplicon profiles into the Socransky microbial complexes and computes the published Subgingival Microbial Dysbiosis Index (SMDI).',
+    description='QIIME 2 plugin that collapses subgingival amplicon '
+                'profiles into the Socransky microbial complexes and '
+                'computes the published Subgingival Microbial Dysbiosis '
+                'Index (SMDI).',
     short_description='Plugin for Periodontal Biofilm & Dysbiosis Characterization.'
 )
 
@@ -163,6 +167,8 @@ plugin.methods.register_function(
                citations['perezchaparro2014newly']],
     name='Collapse features into Socransky complexes and compute dysbiosis '
          'indices',
+    examples={'collapse_complexes_basic': ex.collapse_complexes_basic,
+              'collapse_complexes_filtered': ex.collapse_complexes_filtered},
     description='Assigns each feature to a Socransky complex using only '
                 'species (and the Actinomyces genus) documented by Socransky '
                 'et al. (1998) and Socransky & Haffajee (2002), and computes '
@@ -207,6 +213,7 @@ plugin.methods.register_function(
                        'subject_col (subject-id), not by sample ID.'
     },
     name='Longitudinal treatment deltas',
+    examples={'delta_indices_paired': ex.delta_indices_paired},
     description='Calculates paired deltas of the dysbiosis indices between '
                 'a baseline and a follow-up group. Several samples of the '
                 'same unit in one group (e.g. several sites) are averaged '
@@ -243,6 +250,7 @@ plugin.visualizers.register_function(
                           'independent observations.'
     },
     name='Summarize complexes and dysbiosis indices',
+    examples={'summarize_by_group': ex.summarize_by_group},
     description='Generates an offline dashboard (.qzv) with complex '
                 'profiles, index distributions, taxonomic-resolution '
                 'quality control and, for a chosen metadata column, '
@@ -250,4 +258,4 @@ plugin.visualizers.register_function(
                 'Benjamini-Hochberg q-values.'
 )
 
-import q2_periodontitis._transformer
+import q2_periodontitis._transformer  # noqa: E402,F401  (registers transformers)

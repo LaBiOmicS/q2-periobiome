@@ -35,6 +35,13 @@ cd "$OUT"
   --type 'FeatureData[Taxonomy]' --input-format HeaderlessTSVTaxonomyFormat \
   --input-path "$TAX" --output-path ehomd-$VERSION-taxonomy.qza
 
+# QIIME 2 >= 2026.x requires an extraction-statistics output
+STATS_OPT() {
+  if qiime feature-classifier extract-reads --help | grep -q -- --o-read-extraction-stats; then
+    echo "--o-read-extraction-stats $1"
+  fi
+}
+
 train() {
   local region=$1 fwd=$2 rev=$3
   local reads=ehomd-$VERSION-$region-seqs.qza
@@ -43,7 +50,7 @@ train() {
   echo "$(date +%H:%M) $region"
   qiime feature-classifier extract-reads --i-sequences ehomd-$VERSION-seqs.qza \
     --p-f-primer "$fwd" --p-r-primer "$rev" --p-n-jobs "$THREADS" \
-    --o-reads "$reads"
+    --o-reads "$reads" $(STATS_OPT ehomd-$VERSION-$region-extraction-stats.qza)
   qiime feature-classifier fit-classifier-naive-bayes \
     --i-reference-reads "$reads" \
     --i-reference-taxonomy ehomd-$VERSION-taxonomy.qza --o-classifier "$clf"

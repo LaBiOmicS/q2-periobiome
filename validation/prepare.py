@@ -308,16 +308,18 @@ def elderly_nspt():
 
 def thai_stages():
     """PRJNA1294584: BioSample title control / Stage2 / Stage3 / Stage4,
-    one sample per subject (host_subject_id)."""
+    one sample per subject (host_subject_id). The publication of the cohort
+    (Sawangpanyangkura et al. 2026, J Clin Periodontol) describes the
+    control group as gingivitis (n = 30), not periodontal health, so it is
+    labelled gingivitis and the cohort has no health group."""
     a = attributes()
     label = a["title"] if "title" in a else runs["sample_title"]
     stage = label.str.extract(r"Stage(\d)")[0]
     out = pd.DataFrame({"run": a["run"], "subject": a["host subject id"],
                         "group_label": label})
-    out["status"] = ["health" if str(x).lower() == "control"
+    out["status"] = ["gingivitis" if str(x).lower() == "control"
                      else "periodontitis" for x in label]
-    out["stage"] = [0 if s == "health" else int(st) if isinstance(st, str)
-                    else None for s, st in zip(out["status"], stage)]
+    out["stage"] = [int(st) if isinstance(st, str) else None for st in stage]
     out["sample-id"] = out["subject"]
     return manifest(out, paired=True), out
 
@@ -354,7 +356,9 @@ def peridysseq():
 def santiago(region):
     """PRJNA773195 (V1-V3) and PRJNA773202 (V3-V4): the same subgingival
     samples of systemically healthy subjects with or without periodontitis
-    (BioSample Health_condition). Mock communities are dropped. The
+    (BioSample Health_condition), with subject-level probing depth,
+    attachment level, bleeding on probing and plaque index. Mock
+    communities are dropped. The
     OSRG<n> code that ends every sample alias identifies the subject and
     links the two regions (Code_sample_CRG repeats across runs)."""
     a = attributes()
@@ -366,6 +370,11 @@ def santiago(region):
         "severity": a.get("periodontitis severity"),
         "smoking": a.get("smoking"), "country": a.get("geo loc name"),
         "code_sample_crg": a.get("code sample crg"),
+        # Subject-level clinical measures (BOP and plaque index in %)
+        "probing_depth": a.get("ppd total"),
+        "clinical_attachment_loss": a.get("cal total"),
+        "bleeding_on_probing": a.get("bop total"),
+        "plaque_index": a.get("pi"),
     })
     alias = runs.set_index("run_accession")["sample_alias"]
     out["sample-id"] = alias.loc[out["run"]].to_numpy()

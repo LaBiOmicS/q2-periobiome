@@ -37,6 +37,13 @@ rules are:
   *Peptostreptococcus micros* → *Parvimonas micra*, *Actinomyces
   odontolyticus* → *Schaalia odontolytica*, *Streptococcus sanguis* → *S.
   sanguinis*, …).
+* Every row citing the 2002 figures was checked against the published
+  figures (Fig. 1, the complex pyramid; Fig. 11, the 40 species ordered by
+  complex, with the "Other" probes listed separately) on 2026-10-23. Fig.
+  11 adds *F. nucleatum* subsp. *vincentii* and *F. periodonticum* to the
+  orange complex and shows *A. naeslundii* genospecies 2 as the only
+  *Actinomyces* probe; its "Other" probes (*S. noxia*, *C. curvus*,
+  *P. endodontalis*, …) are not assigned.
 * **Genus-level extrapolation is not used**, with one exception. The 2002
   figure labels the blue group "*Actinomyces* species", without naming
   species. That is the only genus-level entry: unlisted *Actinomyces*

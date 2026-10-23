@@ -88,19 +88,28 @@ if [ ! -s table.qza ]; then
       --o-table table.qza --o-representative-sequences rep-seqs.qza \
       --o-stats denoising-stats.qza
   else
+    # QIIME 2 >= 2026.x also writes base-transition statistics
+    extra=""
+    qiime dada2 denoise-$DENOISE --help | grep -q -- --o-base-transition-stats \
+      && extra="--o-base-transition-stats base-transition-stats.qza"
     # shellcheck disable=SC2086
     qiime dada2 denoise-$DENOISE --i-demultiplexed-seqs "$READS" \
       $DADA2_ARGS --p-n-threads "$THREADS" \
       --o-table table.qza --o-representative-sequences rep-seqs.qza \
-      --o-denoising-stats denoising-stats.qza
+      --o-denoising-stats denoising-stats.qza $extra
   fi
 fi
 
 if [ ! -s taxonomy-nb.qza ]; then
   log "naive Bayes"
+  # QIIME 2 >= 2026.x also requires an extraction-statistics output
+  stats=""
+  qiime feature-classifier extract-reads --help | grep -q -- --o-read-extraction-stats \
+    && stats="--o-read-extraction-stats ref-trimmed-stats.qza"
+  # shellcheck disable=SC2086
   qiime feature-classifier extract-reads --i-sequences "$REF/refseq.qza" \
     --p-f-primer "$PRIMER_F" --p-r-primer "$PRIMER_R" \
-    --p-n-jobs "$THREADS" --o-reads ref-trimmed.qza
+    --p-n-jobs "$THREADS" --o-reads ref-trimmed.qza $stats
   qiime feature-classifier fit-classifier-naive-bayes \
     --i-reference-reads ref-trimmed.qza \
     --i-reference-taxonomy "$REF/taxonomy.qza" --o-classifier classifier.qza

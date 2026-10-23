@@ -6,7 +6,7 @@
 #
 # Needs an activated QIIME 2 environment with q2-periodontitis, curl and
 # about 1 GB of disk. Downloads ~45 MB of reads and the eHOMD reference
-# (~5 MB). Runs in a few minutes on 4 cores.
+# (~5 MB). Runs in about 10-15 minutes on 2-4 cores (mostly DADA2).
 set -euo pipefail
 
 WORK=${1:?usage: run_tutorial.sh <work_dir>}
@@ -31,10 +31,15 @@ cut -f1-6 "$HERE/samples.tsv" > metadata.tsv
 qiime tools import --type 'SampleData[SequencesWithQuality]' \
   --input-format SingleEndFastqManifestPhred33V2 \
   --input-path manifest.tsv --output-path demux.qza
+# QIIME 2 >= 2026.x also writes base-transition statistics
+extra=""
+qiime dada2 denoise-single --help | grep -q -- --o-base-transition-stats \
+  && extra="--o-base-transition-stats base-transition-stats.qza"
+# shellcheck disable=SC2086
 qiime dada2 denoise-single --i-demultiplexed-seqs demux.qza \
   --p-trim-left 0 --p-trunc-len 250 --p-n-threads "$THREADS" \
   --o-table table.qza --o-representative-sequences rep-seqs.qza \
-  --o-denoising-stats denoising-stats.qza
+  --o-denoising-stats denoising-stats.qza $extra
 
 # 3. Taxonomy against eHOMD: VSEARCH consensus of the top hits at >= 98 %
 #    identity (or use a naive Bayes classifier trained with

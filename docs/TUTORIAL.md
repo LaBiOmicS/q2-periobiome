@@ -3,7 +3,7 @@
 This tutorial runs `q2-periodontitis` on subgingival 16S rRNA data in
 QIIME 2 (2026.10 or amplicon 2024.10).
 
-## 0. Quick start on real data (a few minutes)
+## 0. Quick start on real data (about 10-15 minutes)
 
 [`docs/tutorial/run_tutorial.sh`](tutorial/run_tutorial.sh) processes 18
 samples of Chen et al. (2018, SRA SRP075100; V4, 515F/806R) from raw reads

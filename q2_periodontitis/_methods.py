@@ -501,6 +501,10 @@ def collapse_complexes(
 
     sample_ids = list(table.ids(axis="sample"))
     feature_ids = list(table.ids(axis="observation"))
+    if not sample_ids or not feature_ids:
+        raise ValueError(
+            "The feature table is empty (%d samples, %d features)."
+            % (len(sample_ids), len(feature_ids)))
     missing_tax = [f for f in feature_ids if f not in taxa.index]
     if missing_tax:
         raise ValueError(

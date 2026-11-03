@@ -510,6 +510,15 @@ class TestCollapseComplexes(CollapseFixture):
         with self.assertRaisesRegex(ValueError, "no taxonomy.*F5"):
             collapse_complexes(self.table, taxonomy)
 
+    def test_empty_table_raise(self):
+        no_samples = self.table.filter([], axis="sample", inplace=False)
+        with self.assertRaisesRegex(ValueError, "feature table is empty"):
+            collapse_complexes(no_samples, self.taxonomy)
+        no_features = self.table.filter([], axis="observation",
+                                        inplace=False)
+        with self.assertRaisesRegex(ValueError, "feature table is empty"):
+            collapse_complexes(no_features, self.taxonomy)
+
     def test_custom_mapping_overrides(self):
         custom = pd.DataFrame({"taxon": ["Lactobacillus casei",
                                          "streptococcus gordonii"],

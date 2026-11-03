@@ -111,9 +111,14 @@ for c in cohorts[cohorts["case_control"] == "yes"].itertuples():
                     if n >= depth]
             sub = table.filter(keep, inplace=False)
             for draw in range(DRAWS):
-                rar = sub.subsample(depth, axis="sample", by_id=False,
-                                    seed=SEED + draw)
-                res = aucs(case_control(indices(rar, taxonomy), meta))
+                if not keep:
+                    # No sample reaches this depth: the AUC is not
+                    # estimable (analysis plan, section 7.3).
+                    res = {m: (np.nan, 0, 0) for m in MEASURES}
+                else:
+                    rar = sub.subsample(depth, axis="sample", by_id=False,
+                                        seed=SEED + draw)
+                    res = aucs(case_control(indices(rar, taxonomy), meta))
                 for m, (a, nh, npos) in res.items():
                     rar_rows.append({"cohort": c.cohort, "classifier": clf,
                                      "meta": c.meta, "depth": depth,

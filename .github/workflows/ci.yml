@@ -52,7 +52,7 @@ jobs:
           cache-environment: true
 
       - name: Add test tooling (environment.yml)
-        run: micromamba env update -n q2-${{ matrix.qiime2 }} -f environment.yml -y
+        run: micromamba install -n q2-${{ matrix.qiime2 }} -f environment.yml -y
 
       - name: Install q2-periobiome
         run: |

@@ -110,8 +110,8 @@ code { font-size: .86em; background: var(--line-2); padding: .12em .4em; border-
 :root[data-theme="dark"] .btn.primary, :root[data-theme="dark"] .btn.primary:hover { color: #04201c; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn.primary, :root:not([data-theme="light"]) .btn.primary:hover { color: #04201c; } }
 .btn svg { width: 17px; height: 17px; }
-.pipcmd { margin-top: 22px; display: inline-flex; align-items: center; gap: 12px; font: .86rem var(--mono); color: var(--ink-2); border: 1px dashed var(--line); padding: 8px 8px 8px 14px; border-radius: 10px; max-width: 100%; }
-.pipcmd span { white-space: nowrap; overflow-x: auto; }
+.pipcmd { margin-top: 22px; display: inline-flex; align-items: center; justify-content: space-between; gap: 12px; font: .86rem var(--mono); color: var(--ink-2); border: 1px dashed var(--line); padding: 8px 8px 8px 14px; border-radius: 10px; max-width: 100%; }
+.pipcmd span { white-space: normal; overflow-wrap: anywhere; line-height: 1.5; }
 .pipcmd .dollar { color: var(--muted); user-select: none; }
 
 /* Terminal */
@@ -248,7 +248,7 @@ section + section { border-top: 1px solid var(--line); }
 .code .c { color: var(--dark-muted); }
 .copy { position: absolute; top: 9px; right: 9px; font: 600 .74rem var(--sans); color: var(--dark-text); background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14); border-radius: 7px; padding: 4px 10px; cursor: pointer; }
 .copy:hover { background: rgba(255,255,255,.15); }
-.pipcmd .copy { position: static; color: var(--ink-2); background: var(--paper); border-color: var(--line); }
+.pipcmd .copy { flex: none; position: static; color: var(--ink-2); background: var(--paper); border-color: var(--line); }
 
 /* Recipes */
 .recipes { display: grid; gap: 12px; grid-template-columns: 1fr; }

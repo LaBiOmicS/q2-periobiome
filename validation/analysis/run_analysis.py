@@ -89,6 +89,24 @@ for c in cohorts[cohorts["case_control"] == "yes"].itertuples():
                                       alternative="two-sided").pvalue})
 disc = save(pd.DataFrame(disc_rows), "discrimination.tsv")
 
+def bounded(auc, var, method="REML", hksj=True):
+    """Pooled AUC on the AUC scale (plan, section 6.1). The CI and the 95 %
+    prediction interval are truncated to [0, 1], the range of an AUC (D27);
+    the untruncated limits are kept as *_raw and "truncated" says whether
+    any limit was cut. The same model on the logit scale is reported as a
+    separate sensitivity row ("REML+HKSJ, logit")."""
+    res = st.random_effects(auc, var, method, hksj)
+    cut = False
+    for key in ["ci_low", "ci_high", "pi_low", "pi_high"]:
+        res[key + "_raw"] = res[key]
+        if np.isfinite(res[key]):
+            new = min(max(res[key], 0.0), 1.0)
+            cut = cut or new != res[key]
+            res[key] = new
+    res["truncated"] = cut
+    return res
+
+
 flagged = set(qc.loc[qc["qc_flags"].fillna("") != "", "cohort"])
 meta_rows, loo_rows = [], []
 SETS = {"independent": disc["meta"] == "primary",
@@ -106,15 +124,21 @@ for set_name, mask in SETS.items():
         for label, se_col, method, hk, gg in variants:
             if len(gg) < 3:   # plan, section 8: no pooled estimate
                 continue
-            res = st.random_effects(gg["auc"], gg[se_col] ** 2, method, hk)
+            res = bounded(gg["auc"], gg[se_col] ** 2, method, hk)
             meta_rows.append({"set": set_name, "classifier": clf,
                               "measure": m, "analysis": label,
                               "cohorts": ";".join(gg["cohort"]), **res})
+        # D27: the whole model on the logit scale, as a sensitivity analysis
+        if len(g) >= 3:
+            res = st.random_effects_logit(g["auc"], g["se_hanley_mcneil"] ** 2)
+            meta_rows.append({"set": set_name, "classifier": clf,
+                              "measure": m, "analysis": "REML+HKSJ, logit",
+                              "cohorts": ";".join(g["cohort"]),
+                              **res, "truncated": False})
         if set_name == "independent" and m == PRIMARY and len(g) >= 4:
             for left in g["cohort"]:
                 gg = g[g["cohort"] != left]
-                res = st.random_effects(gg["auc"],
-                                        gg["se_hanley_mcneil"] ** 2)
+                res = bounded(gg["auc"], gg["se_hanley_mcneil"] ** 2)
                 loo_rows.append({"classifier": clf, "left_out": left, **res})
 save(pd.DataFrame(meta_rows), "meta_auc.tsv")
 save(pd.DataFrame(loo_rows), "meta_auc_loo.tsv")

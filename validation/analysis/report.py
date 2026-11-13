@@ -95,11 +95,20 @@ for clf in ["nb", "vsearch"]:
 
 meta = read("meta_auc.tsv")
 h("Q1. Random-effects meta-analysis of AUC")
+lines.extend(["Pooled on the AUC scale (plan, section 6.1). An AUC lies "
+              "in [0, 1], so CI and prediction-interval (PI) limits outside "
+              "that range are truncated and marked † (D27); the untruncated "
+              "limits are in `meta_auc.tsv` (`*_raw`). The row "
+              "\"REML+HKSJ, logit\" fits the same model to logit(AUC) with "
+              "delta-method variances and back-transforms it (sensitivity "
+              "analysis; τ² on the logit scale).", ""])
 rows = []
 for r in meta.itertuples():
+    dag = " †" if r.truncated else ""
     rows.append([r.set, r.classifier, name(r.measure), r.analysis, r.k,
                  "%s (%s–%s)" % (f(r.estimate), f(r.ci_low), f(r.ci_high)),
-                 "%s–%s" % (f(r.pi_low), f(r.pi_high)), f(r.i2 * 100, 0),
+                 "%s–%s%s" % (f(r.pi_low), f(r.pi_high), dag),
+                 f(r.i2 * 100, 0),
                  "%.2g" % r.tau2])
 table(["Set", "Classifier", "Measure", "Analysis", "k",
        "Pooled AUC (95% CI)", "95% PI", "I² (%)", "τ²"], rows)

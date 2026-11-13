@@ -85,6 +85,35 @@ class TestMeta(unittest.TestCase):
         self.assertEqual(res["i2"], 0.0)
         self.assertAlmostEqual(res["estimate"], 0.8)
 
+    def test_logit_scale_stays_in_unit_interval(self):
+        # AUCs near 1 with heterogeneity: the AUC-scale PI passes 1
+        a = np.array([0.90, 0.95, 0.92, 0.91, 0.955, 0.99])
+        v = np.array([0.03, 0.02, 0.025, 0.025, 0.02, 0.01]) ** 2
+        raw = st.random_effects(a, v)
+        self.assertGreater(raw["pi_high"], 1.0)
+        res = st.random_effects_logit(a, v)
+        for key in ["estimate", "ci_low", "ci_high", "pi_low", "pi_high"]:
+            self.assertTrue(0 < res[key] < 1, key)
+        self.assertLessEqual(res["ci_low"], res["estimate"])
+        self.assertLessEqual(res["pi_low"], res["ci_low"])
+        self.assertGreaterEqual(res["pi_high"], res["ci_high"])
+
+    def test_logit_scale_matches_transformed_fit(self):
+        a = np.array([0.80, 0.85, 0.90, 0.75])
+        v = np.array([0.04, 0.03, 0.02, 0.05]) ** 2
+        y = np.log(a / (1 - a))
+        ref = st.random_effects(y, v / (a * (1 - a)) ** 2)
+        res = st.random_effects_logit(a, v)
+        self.assertAlmostEqual(res["estimate"],
+                               1 / (1 + np.exp(-ref["estimate"])), places=12)
+        self.assertAlmostEqual(res["pi_high"],
+                               1 / (1 + np.exp(-ref["pi_high"])), places=12)
+        self.assertEqual(res["tau2"], ref["tau2"])
+
+    def test_logit_scale_rejects_perfect_auc(self):
+        with self.assertRaises(ValueError):
+            st.random_effects_logit([0.9, 1.0, 0.8], [0.01, 0.01, 0.01])
+
 
 class TestProportions(unittest.TestCase):
 

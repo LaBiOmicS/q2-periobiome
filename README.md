@@ -3,7 +3,7 @@
 **Socransky complexes and dysbiosis indices for subgingival 16S rRNA data — a QIIME 2 plugin**
 
 [![CI](https://github.com/LaBiOmicS/q2-periobiome/actions/workflows/ci.yml/badge.svg)](https://github.com/LaBiOmicS/q2-periobiome/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/LaBiOmicS/q2-periobiome/blob/main/LICENSE)
 [![QIIME 2](https://img.shields.io/badge/QIIME%202-2024.10%20%7C%202026.10-purple.svg)](https://qiime2.org)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB.svg)](https://www.python.org)
 
@@ -40,9 +40,9 @@ describes differently.
 ## What the validation shows
 
 The indices were evaluated on **16 public 16S datasets** processed from raw
-reads, following a pre-specified plan ([docs/ANALYSIS_PLAN.md](docs/ANALYSIS_PLAN.md)).
-Full results: [docs/VALIDATION.md](docs/VALIDATION.md) and
-[validation/results/](validation/results/).
+reads, following a pre-specified plan ([docs/ANALYSIS_PLAN.md](https://github.com/LaBiOmicS/q2-periobiome/blob/main/docs/ANALYSIS_PLAN.md)).
+Full results: [docs/VALIDATION.md](https://github.com/LaBiOmicS/q2-periobiome/blob/main/docs/VALIDATION.md) and
+[validation/results/](https://github.com/LaBiOmicS/q2-periobiome/tree/main/validation/results/).
 
 Across six independent case-control cohorts, the SMDI, its simplified form,
 the Red complex and PC2014_moderate were consistently higher in
@@ -98,7 +98,7 @@ For QIIME 2 amplicon 2024.10, use
 `https://data.qiime2.org/distro/amplicon/qiime2-amplicon-2024.10-py310-linux-conda.yml`
 as the environment file. Every runtime dependency of the plugin is part of
 both distributions, hence `--no-deps`. Ready-made environment files that
-include the plugin are in [environment-files/](environment-files/).
+include the plugin are in [environment-files/](https://github.com/LaBiOmicS/q2-periobiome/tree/main/environment-files/).
 
 For development:
 
@@ -114,13 +114,13 @@ pytest && flake8
 
 * A feature table of **raw counts** (do not rarefy or normalize).
 * A taxonomy classified to **species** against an **oral** reference,
-  ideally eHOMD. [scripts/train_classifiers.sh](scripts/train_classifiers.sh)
+  ideally eHOMD. [scripts/train_classifiers.sh](https://github.com/LaBiOmicS/q2-periobiome/blob/main/scripts/train_classifiers.sh)
   trains naive Bayes classifiers on eHOMD V15.23 for V4 (515F/806R), V3-V4
   (341F/805R) and V1-V2 (27F/338R). A classifier is tied to the
   scikit-learn version that trained it, so train it in the QIIME 2
   environment you will classify with. Alternatively, use
   `classify-consensus-vsearch` against full-length eHOMD, as in the
-  [tutorial](docs/TUTORIAL.md). With generic databases, fewer reads reach
+  [tutorial](https://github.com/LaBiOmicS/q2-periobiome/blob/main/docs/TUTORIAL.md). With generic databases, fewer reads reach
   species level, and the complex profiles then cover a smaller part of the
   community. The `qc_*` columns show how much.
 
@@ -211,12 +211,12 @@ Complexes, indices, deltas and mapping can be used as QIIME 2 Metadata, e.g. wit
 
 | Document | Content |
 |---|---|
-| [docs/THEORY.md](docs/THEORY.md) | Scientific basis, formulas, reference curation and limits |
-| [docs/TUTORIAL.md](docs/TUTORIAL.md) | End-to-end run on public subgingival data |
-| [docs/VALIDATION.md](docs/VALIDATION.md) | Multi-cohort external validation |
-| [docs/ANALYSIS_PLAN.md](docs/ANALYSIS_PLAN.md) | Pre-specified validation plan |
-| [docs/SPEC.md](docs/SPEC.md) | Code layout and file formats |
-| [validation/README.md](validation/README.md) | How to reproduce the validation |
+| [docs/THEORY.md](https://github.com/LaBiOmicS/q2-periobiome/blob/main/docs/THEORY.md) | Scientific basis, formulas, reference curation and limits |
+| [docs/TUTORIAL.md](https://github.com/LaBiOmicS/q2-periobiome/blob/main/docs/TUTORIAL.md) | End-to-end run on public subgingival data |
+| [docs/VALIDATION.md](https://github.com/LaBiOmicS/q2-periobiome/blob/main/docs/VALIDATION.md) | Multi-cohort external validation |
+| [docs/ANALYSIS_PLAN.md](https://github.com/LaBiOmicS/q2-periobiome/blob/main/docs/ANALYSIS_PLAN.md) | Pre-specified validation plan |
+| [docs/SPEC.md](https://github.com/LaBiOmicS/q2-periobiome/blob/main/docs/SPEC.md) | Code layout and file formats |
+| [validation/README.md](https://github.com/LaBiOmicS/q2-periobiome/blob/main/validation/README.md) | How to reproduce the validation |
 
 ## 6. Citations
 
@@ -227,8 +227,8 @@ Run `qiime periobiome --citations` for BibTeX. The key references are:
 3. Chen T, Marsh PD, Al-Hebshi NN (2022). SMDI: an index for measuring subgingival microbial dysbiosis. *J Dent Res* 101:331–338. https://doi.org/10.1177/00220345211035775
 4. Pérez-Chaparro PJ, Gonçalves C, Figueiredo LC, et al. (2014). Newly identified pathogens associated with periodontitis: a systematic review. *J Dent Res* 93:846–858. https://doi.org/10.1177/0022034514542468
 
-To cite the plugin itself, see [CITATION.cff](CITATION.cff).
+To cite the plugin itself, see [CITATION.cff](https://github.com/LaBiOmicS/q2-periobiome/blob/main/CITATION.cff).
 
 ## 7. License
 
-MIT ([LICENSE](LICENSE)). Developed at LaBiOmicS — Laboratory of Bioinformatics and Omics Sciences, University of Mogi das Cruzes. The bundled Vega, Vega-Lite and Vega-Embed libraries are BSD-3-Clause (`q2_periobiome/assets/web/js/`).
+MIT ([LICENSE](https://github.com/LaBiOmicS/q2-periobiome/blob/main/LICENSE)). Developed at LaBiOmicS — Laboratory of Bioinformatics and Omics Sciences, University of Mogi das Cruzes. The bundled Vega, Vega-Lite and Vega-Embed libraries are BSD-3-Clause (`q2_periobiome/assets/web/js/`).

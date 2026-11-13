@@ -5,9 +5,8 @@
   "description": "<p>QIIME 2 plugin that summarises subgingival 16S rRNA amplicon profiles as Socransky microbial complexes and computes the published Subgingival Microbial Dysbiosis Index (SMDI; Chen, Marsh &amp; Al-Hebshi 2022), its simplified three-genus form, the moderate-evidence taxa of P&eacute;rez-Chaparro et al. (2014) and quality-control measures. Validated on public subgingival 16S cohorts (docs/VALIDATION.md).</p>",
   "creators": [
     {
-      "name": "Menegidio, Fabiano",
-      "affiliation": "[TODO-AUTHOR: affiliation]",
-      "orcid": "[TODO-AUTHOR: 0000-0000-0000-0000]"
+      "name": "LaBiOmicS",
+      "affiliation": "Laboratory of Bioinformatics and Omics Sciences, University of Mogi das Cruzes"
     }
   ],
   "license": "MIT",

@@ -4,18 +4,13 @@ title: "q2-periobiome: a QIIME 2 plugin for Socransky complexes and the Subgingi
 version: 2026.10.0
 # Set to the tag date when the release is tagged
 date-released: 2026-10-23
-url: "https://github.com/LaBiOmicS/q2-periobiome"
+url: "https://labiomics.github.io/q2-periobiome/"
 repository-code: "https://github.com/LaBiOmicS/q2-periobiome"
 license: MIT
 type: software
 authors:
-  - family-names: "Menegidio"
-    given-names: "Fabiano"
-    email: "fmenegidio@gmail.com"
-    # TODO-AUTHOR: ORCID, e.g. https://orcid.org/0000-0000-0000-0000
-    # orcid: "https://orcid.org/[TODO-AUTHOR]"
-    # TODO-AUTHOR: affiliation
-    # affiliation: "[TODO-AUTHOR]"
+  - name: "LaBiOmicS — Laboratory of Bioinformatics and Omics Sciences, University of Mogi das Cruzes"
+    website: "https://github.com/LaBiOmicS"
 # TODO-AUTHOR: add the Zenodo concept DOI after the first deposit
 # identifiers:
 #   - type: doi

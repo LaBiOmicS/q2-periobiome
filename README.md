@@ -231,4 +231,4 @@ To cite the plugin itself, see [CITATION.cff](CITATION.cff).
 
 ## 7. License
 
-MIT ([LICENSE](LICENSE)). Developed at LaBiOmicS, Universidade de Mogi das Cruzes (UMC), Brazil. The bundled Vega, Vega-Lite and Vega-Embed libraries are BSD-3-Clause (`q2_periobiome/assets/web/js/`).
+MIT ([LICENSE](LICENSE)). Developed at LaBiOmicS — Laboratory of Bioinformatics and Omics Sciences, University of Mogi das Cruzes. The bundled Vega, Vega-Lite and Vega-Embed libraries are BSD-3-Clause (`q2_periobiome/assets/web/js/`).

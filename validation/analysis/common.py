@@ -50,9 +50,9 @@ def subject_case_control(df, measures=MEASURES):
 
 def absent_smdi_taxa(mapping_path):
     """Number of the 49 SMDI species without any feature in the table."""
-    from q2_periodontitis._methods import (SMDI_SPECIES, load_signature,
-                                           load_synonyms, taxon_key,
-                                           _canonical)
+    from q2_periobiome._methods import (SMDI_SPECIES, load_signature,
+                                        load_synonyms, taxon_key,
+                                        _canonical)
     synonyms = load_synonyms()
     mapping = pd.read_csv(mapping_path, sep="\t", dtype=str).fillna("")
     present = {taxon_key(s) for s in mapping["Species"] if s and "/" not in s}

@@ -1,8 +1,8 @@
-# Scientific basis of q2-periodontitis
+# Scientific basis of q2-periobiome
 
 This document states what each output measures, where every number and
 taxon list comes from, and what the plugin cannot do. Every reference
-named here is in `q2_periodontitis/citations.bib`.
+named here is in `q2_periobiome/citations.bib`.
 
 ## 1. Socransky complexes
 
@@ -25,7 +25,7 @@ they co-occur. They are not a classification of the whole oral microbiome.
 
 ### 1.2 How the plugin applies them to amplicon data
 
-`q2_periodontitis/data/socransky_complexes.tsv` lists every reference
+`q2_periobiome/data/socransky_complexes.tsv` lists every reference
 entry, with its source and the figure or sentence that supports it. The
 rules are:
 
@@ -177,25 +177,26 @@ review also places the phylum Saccharibacteria (TM7) and the domain
 Archaea in this category. They are not species, so they are not counted.
 This is a descriptive measure, not a diagnostic index.
 
-### 2.3 Removed indices
+### 2.3 Indices that are not included
 
-Earlier versions reported `pMDI_ilr`, the Socransky Weighted Load (SWL)
-and the Keystone Risk Score (KRS). The SWL weights and the KRS threshold
-and sigmoid were not taken from any publication, and the keystone-pathogen
-hypothesis (Hajishengallis et al. 2012) does not imply a threshold on Red
-complex abundance. `pMDI_ilr` took geometric means over complexes that are
-often zero, so its value was driven by the pseudocount. All three were
-removed.
+Some measures found in the literature or in earlier drafts of this plugin
+are deliberately left out:
 
-An intermediate version also had a **pMDI**: the log10 ratio of late
-(Red + Orange) to early (Yellow + Green + Purple + Blue) colonizer reads.
-The grouping comes from Socransky & Haffajee (2002), but the index itself
-was never published or validated. In the validation data it was almost
-redundant with the SMDI (Spearman ρ 0.86 with SMDI, 0.90 with
-SMDI_simplified). It was removed, so that the only dysbiosis index is the
-published one. The comparison of early and late colonizers is still
-available from the complex table. Removing it does not change the
-complexes in any way.
+* **Socransky Weighted Load (SWL) and Keystone Risk Score (KRS).** Their
+  weights, threshold and sigmoid were not taken from any publication, and
+  the keystone-pathogen hypothesis (Hajishengallis et al. 2012) does not
+  imply a threshold on Red complex abundance.
+* **Isometric log-ratio balances between complexes.** Geometric means over
+  complexes that are often zero make the value depend on the pseudocount
+  rather than on the data.
+* **A late/early colonizer ratio** (Red + Orange against Yellow + Green +
+  Purple + Blue). The grouping comes from Socransky & Haffajee (2002), but
+  the index was never published or validated, and in validation data it
+  was almost redundant with the SMDI (Spearman ρ 0.86 with SMDI, 0.90 with
+  SMDI_simplified). The comparison of early and late colonizers is still
+  available from the complex table.
+
+The only dysbiosis index computed by default is the published SMDI.
 
 ## 3. Statistics in `summarize`
 

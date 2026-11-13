@@ -1,4 +1,4 @@
-# Multi-cohort validation of q2-periodontitis
+# Multi-cohort validation of q2-periobiome
 
 Reproducible re-analysis of public subgingival 16S rRNA amplicon cohorts,
 following the pre-specified plan in
@@ -34,7 +34,7 @@ region and platform. The cohort search and screening are in
 ## Reproducing
 
 Requirements: micromamba (or conda), the QIIME 2 amplicon 2024.10
-environment with q2-periodontitis installed (`pip install -e . --no-deps`
+environment with q2-periobiome installed (`pip install -e . --no-deps`
 from the repository root), curl, about 60 GB of free disk while raw reads
 are present, and about a day on 4 cores.
 
@@ -60,7 +60,7 @@ run can be resumed. Python that reads downloaded data runs isolated
 | Download | `download.sh` | ENA file report and FASTQ, MD5-checked |
 | Metadata | `prepare.py` | QIIME 2 manifest and standardised metadata (`subject`, `status`, `time`, `unit`, `arm`, `response`, `stage`, clinical measures) from SRA/BioSample records, cached in `<data>/<accession>/biosamples.json` |
 | Read QC | `read_qc.py` | Primer positions and quality quartiles; used to fix trimming in `configs/<cohort>.sh` before any index is computed |
-| Processing | `process_dataset.sh` | Optional cutadapt; DADA2 (paired, single or pyro) or Deblur (reads without real qualities); naive Bayes on eHOMD V15.23 trimmed to the primers and VSEARCH (≥ 98 %, top hits) against full-length eHOMD; `qiime periodontitis collapse-complexes` |
+| Processing | `process_dataset.sh` | Optional cutadapt; DADA2 (paired, single or pyro) or Deblur (reads without real qualities); naive Bayes on eHOMD V15.23 trimmed to the primers and VSEARCH (≥ 98 %, top hits) against full-length eHOMD; `qiime periobiome collapse-complexes` |
 | Analysis | `analysis/collect.py`, `analysis/run_analysis.py` | Sample tables, QC flags and the pre-specified statistics |
 | Robustness | `analysis/robustness.py` | Fixed SMDI pseudocount and rarefaction |
 | Figures, report | `analysis/figures.py`, `analysis/report.py` | `results/figures/`, `results/REPORT.md` |

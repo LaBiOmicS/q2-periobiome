@@ -8,8 +8,8 @@ import pandas as pd
 import qiime2
 from qiime2.plugin.testing import TestPluginBase
 
-from q2_periodontitis._methods import COMPLEXES
-from q2_periodontitis._visualizer import (
+from q2_periobiome._methods import COMPLEXES
+from q2_periobiome._visualizer import (
     summarize, benjamini_hochberg, analysis_units, group_comparisons)
 
 
@@ -28,7 +28,7 @@ class TestBenjaminiHochberg(unittest.TestCase):
 
 
 class TestSummarize(TestPluginBase):
-    package = "q2_periodontitis.tests"
+    package = "q2_periobiome.tests"
 
     def setUp(self):
         super().setUp()

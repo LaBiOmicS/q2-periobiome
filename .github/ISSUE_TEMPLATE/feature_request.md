@@ -1,6 +1,6 @@
 ---
 name: Feature Request
-about: Suggest an idea or new feature for q2-periodontitis
+about: Suggest an idea or new feature for q2-periobiome
 title: '[FEATURE] '
 labels: 'enhancement'
 assignees: ''

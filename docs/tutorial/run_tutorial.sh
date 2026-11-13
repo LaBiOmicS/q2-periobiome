@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# q2-periodontitis tutorial: 18 subgingival plaque samples of Chen et al.
+# q2-periobiome tutorial: 18 subgingival plaque samples of Chen et al.
 # (2018, SRA SRP075100), from raw reads to complexes, SMDI and deltas.
 #
 #   bash docs/tutorial/run_tutorial.sh <work_dir>
 #
-# Needs an activated QIIME 2 environment with q2-periodontitis, curl and
+# Needs an activated QIIME 2 environment with q2-periobiome, curl and
 # about 1 GB of disk. Downloads ~45 MB of reads and the eHOMD reference
 # (~5 MB). Runs in about 10-15 minutes on 2-4 cores (mostly DADA2).
 set -euo pipefail
@@ -57,15 +57,15 @@ qiime feature-classifier classify-consensus-vsearch --i-query rep-seqs.qza \
   --p-top-hits-only --p-min-consensus 0.51 --p-threads "$THREADS" \
   --o-classification taxonomy.qza --o-search-results vsearch-hits.qza
 
-# 4. q2-periodontitis
-qiime periodontitis collapse-complexes --i-table table.qza \
+# 4. q2-periobiome
+qiime periobiome collapse-complexes --i-table table.qza \
   --i-taxonomy taxonomy.qza --o-complex-table complexes.qza \
   --o-indices indices.qza --o-mapping mapping.qza
-qiime periodontitis summarize --i-complexes complexes.qza \
+qiime periobiome summarize --i-complexes complexes.qza \
   --i-indices indices.qza --i-mapping mapping.qza \
   --m-metadata-file metadata.tsv --p-group-column group \
   --p-subject-column subject --o-visualization summary.qzv
-qiime periodontitis delta-indices --i-indices indices.qza \
+qiime periobiome delta-indices --i-indices indices.qza \
   --m-metadata-file metadata.tsv --p-subject-col site --p-group-col visit \
   --p-baseline-group before --p-target-group after \
   --o-delta-table deltas.qza

@@ -7,7 +7,7 @@ import biom
 import qiime2
 from qiime2.plugin.testing import TestPluginBase
 
-from q2_periodontitis._methods import (
+from q2_periobiome._methods import (
     COMPLEXES,
     load_complex_reference,
     load_synonyms,
@@ -38,7 +38,7 @@ def _taxonomy(taxa, confidence=None):
 
 
 class TestParser(TestPluginBase):
-    package = "q2_periodontitis.tests"
+    package = "q2_periobiome.tests"
 
     def setUp(self):
         super().setUp()
@@ -181,7 +181,7 @@ class TestParser(TestPluginBase):
 
 
 class TestReference(TestPluginBase):
-    package = "q2_periodontitis.tests"
+    package = "q2_periobiome.tests"
 
     def setUp(self):
         super().setUp()
@@ -290,7 +290,7 @@ class TestReference(TestPluginBase):
 
 
 class CollapseFixture(TestPluginBase):
-    package = "q2_periodontitis.tests"
+    package = "q2_periobiome.tests"
 
     # Counts (features x samples); totals S1 = 100, S2 = 1000, S3 = 100, S4 = 0
     COUNTS = np.array([
@@ -592,7 +592,7 @@ class TestClr(CollapseFixture):
 
 
 class TestDeltaIndices(TestPluginBase):
-    package = "q2_periodontitis.tests"
+    package = "q2_periobiome.tests"
 
     def setUp(self):
         super().setUp()

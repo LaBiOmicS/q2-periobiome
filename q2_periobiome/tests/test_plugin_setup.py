@@ -4,10 +4,10 @@ from qiime2.plugin.testing import TestPluginBase
 
 
 class TestPluginSetup(TestPluginBase):
-    package = "q2_periodontitis.tests"
+    package = "q2_periobiome.tests"
 
     def test_plugin_name(self):
-        self.assertEqual(self.plugin.name, 'periodontitis')
+        self.assertEqual(self.plugin.name, 'periobiome')
 
     def test_actions_registered(self):
         self.assertIn('collapse_complexes', self.plugin.methods)

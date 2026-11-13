@@ -3,7 +3,7 @@
     python -I robustness.py <data_dir> <results_dir>
 
 For every processed case-control cohort and classifier, recomputes the
-indices with q2-periodontitis from the feature table and taxonomy:
+indices with q2-periobiome from the feature table and taxonomy:
 
 * pseudocount: the original SMDI against fixed epsilon = 1e-6, 1e-5, 1e-4
   (collapse_complexes(smdi_pseudocount=...));
@@ -28,7 +28,7 @@ sys.path.insert(0, HERE)
 import stats as st  # noqa: E402
 from common import (CLASSIFIERS, COMPLEXES, CUTOFFS, SEED,  # noqa: E402
                     load_cohorts, subject_case_control)
-from q2_periodontitis._methods import collapse_complexes  # noqa: E402
+from q2_periobiome._methods import collapse_complexes  # noqa: E402
 
 EPSILONS = [1e-6, 1e-5, 1e-4]
 DEPTHS = [1000, 5000, 10000]

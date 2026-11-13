@@ -1,155 +1,275 @@
-# Validation on public clinical data
+# Multi-cohort external validation
 
-This page documents how the plugin's outputs behave on an independent
-clinical 16S dataset processed from raw reads. To reproduce it:
+This page reports how the outputs of `q2-periobiome` behave on public
+subgingival 16S rRNA data processed from raw reads. The analysis followed
+a plan written before the new cohorts were processed
+([ANALYSIS_PLAN.md](ANALYSIS_PLAN.md)); every departure from it is listed
+under [Deviations from the plan](#deviations-from-the-plan).
 
-```bash
-bash validation/run_pipeline.sh /path/to/workdir
-```
+* Every number below is produced by `validation/analysis/` and is in
+  [`validation/results/`](../validation/results/): `REPORT.md` (all
+  tables, both classifiers), `tables/*.tsv` and `figures/`.
+* How to reproduce it: [`validation/README.md`](../validation/README.md).
+* The validation was run while the plugin was still called
+  `q2-periodontitis`; the code of the actions is the same.
 
-The per-subject values and the result tables are in
-[`validation/results/`](../validation/results/).
+## Summary
 
-## Dataset
+* **Health vs periodontitis.** In six independent case-control cohorts, the
+  SMDI, SMDI_simplified, the Red complex and PC2014_moderate were
+  consistently higher in periodontitis than in periodontal health (pooled
+  AUC 0.90–0.94), although individual values overlapped between groups.
+  The early-colonizer complexes, above all Blue (*Actinomyces*), were
+  consistently lower.
+* **SMDI vs Red complex.** The SMDI discriminated slightly better than the
+  Red complex alone (pooled ΔAUC +0.023, 95% CI 0.008–0.038).
+  SMDI_simplified did not differ from it.
+* **Severity.** The SMDI correlated with probing depth, attachment loss and
+  bleeding on probing (ρ 0.60–0.76) in the two cohorts with clinical data,
+  and with periodontitis stage (ρ 0.52–0.58) in two of three.
+* **Therapy.** The median SMDI fell after periodontal therapy in all six
+  treated cohorts or arms (p < 0.05 in four); in an untreated control arm
+  it rose.
+* **Prognosis.** Baseline values did not identify non-responders
+  (AUC ≈ 0.5).
+* **Robustness.** Results were stable across taxonomic classifiers, 16S
+  regions, rarefaction depths and pseudocounts. The value of the SMDI,
+  however, shifts with region and pseudocount, so published cut-offs do
+  not transfer exactly.
 
-Chen et al. (2018, *ISME J* 12:1210–1224), SRA **SRP075100**. The data are
-Illumina MiSeq reads of the 16S rRNA V4 region (515F/806R) from
-subgingival plaque collected with paper points at two contralateral
-maxillary posterior teeth per subject:
+## Questions
 
-| Group | Samples | Subjects |
-|---|---|---|
-| Healthy (HP) | 42 | 21 |
-| Periodontitis, before therapy (D1P) | 96 | 48 |
-| Periodontitis, ≥ 4 weeks after non-surgical therapy (D2P) | 19 | 19 |
+| | Question | Unit | Section |
+|---|---|---|---|
+| Q1 | Do the indices discriminate periodontitis from health? | subject | [Q1](#q1-health-vs-periodontitis) |
+| Q2 | Does the SMDI discriminate better than the Red complex? | subject | [Q2](#q2-smdi-vs-red-complex) |
+| Q3 | How do the published cut-offs perform? | subject | [Q3](#q3-published-cut-offs) |
+| Q4 | Do the indices change after therapy? | subject or site | [Q4](#q4-change-after-therapy) |
+| Q5 | Do baseline values predict non-response? | site or subject | [Q5](#q5-prognosis) |
+| Q6 | Do the indices track clinical severity? | subject | [Q6](#q6-clinical-severity) |
 
-Groups, subjects and teeth are taken from the SRA sample titles
-(`GROUP_SUBJECT_TOOTH…`). Clinical scores per sample are not in the SRA
-records, so the analysis uses the diagnostic groups.
+## Cohorts
 
-The dataset is **independent of the SMDI's derivation**. Chen, Marsh &
-Al-Hebshi (2022) trained it on Abusleme 2013, Griffen 2012 and Kirst 2015,
-and tested it on Pei 2020, Bizzarro 2016 and HMP.
+16 datasets from 14 sets of samples (PRJNA773195 re-sequences the samples
+of PRJNA773202 in another region, and SRP009299 has V1-V2 and V4 reads of
+the same libraries). The full register, with publications, is in
+[`validation/README.md`](../validation/README.md) and
+[`validation/cohorts.tsv`](../validation/cohorts.tsv).
+
+| Role | Cohorts |
+|---|---|
+| Primary meta-analysis (independent of the SMDI) | SRP075100 (V4), PRJNA863881 (V3-V4, Spain), PRJEB83770 (V3-V4, France), PRJNA1470369 (V3-V4, China), PRJNA773202 (V3-V4, Spain/Portugal), PRJNA726254 (V4, USA) |
+| Non-independent (SMDI training or test data) | SRP051201 (Kirst 2015), SRP009299 V1-V2 (Griffen 2012), SRP226726 (Pei 2020) |
+| Region comparison only | PRJNA773195 (V1-V3), SRP009299 V4 |
+| Severity only (gingivitis vs stage II-IV) | PRJNA1294584 (Thailand) |
+| Therapy and prognosis | PRJNA786436, PRJNA736618, PRJEB106816, SRP062274, plus the follow-up samples of SRP075100 and PRJNA726254 |
+
+"Independent" means that no sample of the cohort was used to derive or
+test the SMDI (Chen et al. 2022 trained it on Abusleme 2013, Griffen 2012
+and Kirst 2015, and tested it on Pei 2020, Bizzarro 2016 and HMP).
 
 ## Processing
 
-QIIME 2 amplicon 2024.10. The reads are already merged and primer-free
-(about 253 nt). DADA2 `denoise-single` (`--p-trunc-len 250`) was used. A
-naive Bayes classifier was trained on eHOMD 16S RefSeq V15.23 trimmed to
-515F/806R. `collapse-complexes` ran with default parameters.
+* QIIME 2 amplicon 2024.10. Reads were downloaded from ENA with MD5
+  checks, and pre-processing was fixed per cohort from read quality,
+  before any index was computed (`validation/configs/`).
+* Primers were removed with cutadapt where they were present, and reads
+  were denoised with DADA2. The exception is SRP009299, which was deposited
+  without real quality scores and was denoised with Deblur.
+* Taxonomy: naive Bayes classifiers trained on eHOMD 16S RefSeq V15.23,
+  trimmed to each primer pair (primary). Every analysis was repeated with
+  `classify-consensus-vsearch` against full-length eHOMD (≥ 98% identity).
+* `collapse-complexes` ran with default parameters (published
+  table-dependent pseudocount).
+* Several samples of one subject at one time point were averaged. AUC 95%
+  CIs come from a stratified bootstrap over subjects (2,000 resamples).
 
-## Quality control
+### Quality control (naive Bayes)
 
-| Measure (157 samples) | Median | IQR |
-|---|---|---|
-| Reads per sample | 28,600 | 24,000–33,900 |
-| Reads in a Socransky complex | 0.29 | 0.20–0.40 |
-| Reads named to species | 0.83 | 0.75–0.89 |
-
-Most reads are named to species, but the Socransky panel covers only
-about 30% of the community. Species resolution in V4 is uneven across
-genera:
-
-| Genus | Reads named to species |
+| Measure | Range across the 16 datasets (median per dataset) |
 |---|---|
-| *Campylobacter*, *Porphyromonas*, *Prevotella* | ≥ 0.94 |
-| *Treponema*, *Veillonella*, *Capnocytophaga*, *Fusobacterium* | 0.76–0.87 |
-| ***Streptococcus***, ***Actinomyces***, *Fretibacterium* | **0.27–0.29** |
+| Reads per sample | 1,569–176,948 |
+| Reads in a Socransky complex | 0.07–0.35 |
+| Reads named to species | 0.53–0.94 |
+| SMDI species absent from the table | 1–22 of 49 |
 
-The *Streptococcus* species of the **Yellow complex (mitis/oralis/sanguinis
-group) are largely unresolvable in V4**, so the Yellow complex is
-underestimated here (median 0 in periodontitis subjects). The Blue group is
-less affected, because it is assigned at genus level: all of its features
-here were assigned through the *Actinomyces* genus entry. This is a
-property of the amplicon, not of the plugin. Prefer longer or more
-variable regions (e.g. V1–V3) when the early-colonizer complexes matter.
+The Socransky panel covers only 20–35% of the reads in most cohorts.
+Three non-independent datasets were flagged by the pre-specified QC rules
+(SRP051201, SRP009299: median depth < 5,000; SRP226726: < 10% of reads
+assigned). None of the six primary cohorts was flagged.
 
-## 1. Health vs periodontitis
+**Species resolution in V4.** Oral *Streptococcus* (Yellow) and
+*Actinomyces* (Blue) are poorly resolved to species in V4. The Yellow
+complex is therefore underestimated in V4 data, and several health-
+associated SMDI species are missing (e.g. 16 of 49 in SRP075100). Prefer
+V1-V3 or V3-V4 when the early-colonizer complexes matter, and always
+report the `qc_*` columns and the absent-taxa warning.
 
-Subjects are the unit of analysis: the two sites of each subject are
-averaged. The 95% CI comes from a stratified bootstrap over subjects
-(2000 resamples). AUC is P(periodontitis > health); values below 0.5 mean
-higher in health.
+## Q1. Health vs periodontitis
 
-| Measure | Median health | Median periodontitis | AUC (95% CI) | Mann-Whitney p |
-|---|---|---|---|---|
-| **SMDI** (49 species) | −0.07 | 2.43 | **0.90** (0.81–0.97) | 1.6 × 10⁻⁷ |
-| SMDI_simplified | −3.68 | 1.26 | 0.86 (0.76–0.95) | 1.8 × 10⁻⁶ |
-| PC2014_moderate | 0.015 | 0.095 | 0.84 (0.71–0.94) | 1.1 × 10⁻⁵ |
-| Red complex | 0.002 | 0.099 | 0.86 (0.75–0.95) | 2.3 × 10⁻⁶ |
-| Orange complex | 0.121 | 0.162 | 0.71 (0.56–0.84) | 0.0065 |
-| Yellow complex | 0.003 | 0 | 0.18 (0.08–0.31) | 1.7 × 10⁻⁵ |
-| Green complex | 0.008 | 0.005 | 0.38 (0.25–0.52) | 0.13 |
-| Purple complex | 0.012 | 0.002 | 0.21 (0.09–0.35) | 1.5 × 10⁻⁴ |
-| Blue (*Actinomyces*) | 0.047 | 0.009 | 0.16 (0.07–0.25) | 6.6 × 10⁻⁶ |
+Random-effects meta-analysis of the AUC: REML with Hartung-Knapp-Sidik-
+Jonkman confidence intervals, Hanley-McNeil standard errors. AUC is
+P(index in periodontitis > index in health); values below 0.5 mean higher
+in health.
 
-The complexes behave as the Socransky model predicts. The late
-colonizers (Red, Orange) are higher in periodontitis. The early colonizers
-(Yellow, Purple, Blue) are lower. Green is lower too, but not
-significantly.
-
-**The full SMDI reproduces its published accuracy.** Chen et al. (2022)
-reported AUC 0.92 in their test sets, against 0.90 here. Its published
-cut-offs give:
-
-| Cut-off | Unit | Sensitivity | Specificity | Accuracy |
-|---|---|---|---|---|
-| 0 | subjects | 0.90 | 0.52 | 0.78 |
-| 0.4 (best in training) | subjects | 0.88 | 0.76 | 0.84 |
-| **0.5 (best in test)** | **subjects** | **0.85** | **0.90** | **0.87** |
-| 0.5 | samples | 0.79 | 0.74 | 0.78 |
-
-The cut-off that maximizes Youden's J in this dataset is 0.54, which
-practically coincides with the published 0.5. This is an independent
-confirmation of the threshold.
-
-For SMDI_simplified at its published cut-off of 0: subjects 0.60 / 0.90 /
-0.70 (sensitivity / specificity / accuracy), samples 0.62 / 0.88 / 0.70.
-That is specific but less sensitive. This is consistent with the authors'
-note that V4 data place the SMDI about one unit lower than V1–V3. The
-in-sample Youden cut-off is −1.46 (0.85 / 0.81). It was chosen on the
-same data, so it is descriptive only.
-
-**16 of the 49 SMDI species are absent from this V4 table**, including the
-top health-associated *S. sanguinis*, *A. naeslundii* and *S. mitis*, and
-*Fretibacterium* HMT 359/360/362. The reason is the poor species
-resolution of these genera in V4 (see Quality control). Absent taxa enter
-at the pseudocount, as the method prescribes. The index still performed
-best, but on other data it can behave differently. The plugin lists the
-absent taxa in a warning.
-
-**The indices largely agree.** Spearman ρ, n = 69 subjects: SMDI vs
-SMDI_simplified 0.91, SMDI vs PC2014_moderate 0.73.
-
-## 2. Response to non-surgical therapy
-
-Same tooth before (D1P) and after (D2P) therapy, one site per subject, n =
-19. Change = after − before.
-
-| Index | Median change | Sites that decreased | Wilcoxon signed-rank p |
+| Measure (6 independent cohorts, naive Bayes) | Pooled AUC (95% CI) | 95% prediction interval | I² |
 |---|---|---|---|
-| SMDI | −0.25 | 13/19 | 0.096 |
-| SMDI_simplified | −0.57 | 12/19 | 0.29 |
-| PC2014_moderate | −0.019 | 13/19 | 0.13 |
+| **SMDI** | **0.94 (0.91–0.98)** | 0.86–1.00 † | 52% |
+| SMDI_simplified | 0.92 (0.89–0.94) | 0.89–0.94 | 0% |
+| Red complex | 0.91 (0.88–0.94) | 0.88–0.94 | 0% |
+| PC2014_moderate | 0.90 (0.86–0.94) | 0.82–0.98 | 31% |
+| Orange complex | 0.72 (0.62–0.81) | 0.49–0.94 | 68% |
+| Purple complex | 0.36 (0.25–0.47) | 0.10–0.62 | 62% |
+| Green complex | 0.27 (0.14–0.40) | 0.00–0.58 † | 77% |
+| Yellow complex | 0.19 (0.11–0.26) | 0.02–0.35 | 51% |
+| Blue complex | 0.18 (0.13–0.24) | 0.12–0.24 | 7% |
 
-All indices tend to decrease after therapy, but no change is significant
-with 19 sites. The original study also described heterogeneous site-level
-responses. These data neither confirm nor rule out responsiveness to
-treatment. A larger longitudinal dataset is needed.
+† Limit truncated to [0, 1], the attainable range of an AUC; the raw
+limits are in `meta_auc.tsv` (`*_raw` columns).
 
-## Conclusions and limits
+Per cohort, the SMDI AUC ranged from 0.90 to 0.99. Sensitivity analyses
+gave the same picture:
 
-* **The 49-species SMDI is the best-performing and best-supported index.**
-  In independent V4 data it reached AUC 0.90, and its published cut-off of
-  0.5 gave sensitivity 0.85 and specificity 0.90 at subject level. Use it
-  as the primary measure.
-* SMDI_simplified, PC2014_moderate and the Red complex also discriminate
-  (AUC 0.84–0.86). SMDI_simplified needs only genus names, which makes it
-  the fallback when species resolution is poor.
-* The early-colonizer complexes and several SMDI species depend on
-  species resolution, which V4 does not provide for oral streptococci and
-  *Actinomyces*. Always report the `qc_*` columns and the SMDI
-  absent-taxa warning.
-* One dataset, one region, one country. Diagnostic accuracy should be
-  re-estimated in each study population, and neither index is a clinical
-  test.
+* DerSimonian-Laird or bootstrap standard errors: within 0.01 of the
+  primary estimates;
+* leaving out one cohort at a time: SMDI between 0.93 and 0.95;
+* the vsearch classifier: SMDI 0.93 (0.91–0.96);
+* the same model on logit(AUC): SMDI 0.93 (0.89–0.95), Red 0.90
+  (0.86–0.93).
+
+In the three non-independent datasets, the SMDI reached a pooled AUC of
+0.92 (0.81–1.00) and the Red complex 0.91 (0.86–0.96). Independent data
+therefore reproduce, and do not fall short of, the accuracy that Chen et
+al. (2022) reported (0.92 in their test sets).
+
+The complexes behave as the Socransky model predicts: the late colonizers
+(Red, and less consistently Orange) are higher in periodontitis, and the
+early colonizers are lower, most consistently Blue (*Actinomyces*). This
+replicates the disease association of the complexes. It does not test
+their co-occurrence structure, which is how they were defined.
+
+![Forest plot](../validation/results/figures/fig1_forest.png)
+
+## Q2. SMDI vs Red complex
+
+Paired DeLong test per cohort, then random-effects pooling of the AUC
+difference (independent cohorts, naive Bayes):
+
+| Comparison | Pooled ΔAUC (95% CI) | p | I² |
+|---|---|---|---|
+| SMDI − Red | +0.023 (0.008 to 0.038) | 0.012 | 0% |
+| SMDI_simplified − Red | +0.002 (−0.017 to 0.022) | 0.80 | 0% |
+
+No single cohort showed a significant difference after correction. The
+49-species index adds a small and consistent gain over the three Red
+complex species; the three-genus index adds none.
+
+## Q3. Published cut-offs
+
+Pooled sensitivity and specificity (DerSimonian-Laird random effects on
+the logit scale, six independent cohorts, naive Bayes):
+
+| Rule | Sensitivity (95% CI) | Specificity (95% CI) |
+|---|---|---|
+| SMDI > 0 | 0.90 (0.86–0.94) | 0.69 (0.57–0.79) |
+| SMDI > 0.4 (best in training) | 0.88 (0.80–0.93) | 0.77 (0.67–0.85) |
+| SMDI > 0.5 (best in test) | 0.87 (0.79–0.93) | 0.81 (0.69–0.89) |
+| SMDI_simplified > 0 | 0.75 (0.57–0.88) | 0.82 (0.70–0.90) |
+
+Even at the best published cut-off, about one in eight patients and one in
+five healthy subjects are misclassified, and the specificity varies
+between cohorts. The cut-offs describe groups; they do not classify
+individuals reliably.
+
+## Q4. Change after therapy
+
+Follow-up minus baseline, Wilcoxon signed-rank test (naive Bayes):
+
+| Cohort | Treatment | Follow-up | n | Median ΔSMDI | Decreased | p |
+|---|---|---|---|---|---|---|
+| SRP075100 | non-surgical | ≥ 4 weeks | 19 | −0.25 | 68% | 0.096 |
+| PRJNA726254 | non-surgical | after therapy | 15 | −1.69 | 80% | 0.010 |
+| PRJNA786436 | non-surgical (sites) | 3 months | 22 | −1.27 | 68% | 0.039 |
+| PRJNA736618 | full-mouth debridement | day 7 | 38 | −2.77 | 89% | 1.0 × 10⁻⁹ |
+| PRJNA736618 | full-mouth debridement | day 90 | 38 | −3.05 | 82% | 1.2 × 10⁻⁶ |
+| PRJEB106816 | non-surgical | 3 months | 18 | −0.35 | 61% | 0.074 |
+| PRJEB106816 | **untreated control** | 3 months | 17 | **+0.39** | 29% | 0.051 |
+| SRP062274 † | SRP + placebo | 12 months | 19 | −1.50 | 89% | 7.2 × 10⁻⁵ |
+| SRP062274 † | SRP + antibiotics | 12 months | 17 | −2.53 | 94% | 4.6 × 10⁻⁵ |
+
+† Not independent: its baseline was one of the SMDI test sets.
+
+The SMDI fell in every treated group and rose in the untreated control
+arm. The difference between the treated and control arms of PRJEB106816
+was significant before correction (AUC 0.75, p = 0.011; q = 0.19). The Red
+complex followed the same pattern. In SRP062274, adjunctive antibiotics
+produced a larger fall than placebo at 3 months (p = 0.028), but not at 6
+or 12 months.
+
+## Q5. Prognosis
+
+| Cohort | Outcome | n non-responders / responders | AUC of baseline SMDI (95% CI) |
+|---|---|---|---|
+| PRJNA786436 | non-responding vs responding sites | 11 / 11 | 0.50 (0.23–0.74) |
+| SRP062274 † | non-responding vs responding patients | 19 / 18 | 0.40 (0.23–0.59) |
+
+Baseline dysbiosis did not predict response to therapy in either cohort.
+This is a negative result, limited by the small number of non-responders.
+
+## Q6. Clinical severity
+
+Spearman correlation at subject level (naive Bayes):
+
+| Cohort | Clinical measure | SMDI ρ | Red complex ρ |
+|---|---|---|---|
+| PRJNA863881 | probing depth | 0.61 | 0.59 |
+| PRJNA863881 | clinical attachment loss | 0.60 | 0.64 |
+| PRJNA863881 | bleeding on probing | 0.64 | 0.58 |
+| PRJNA863881 | stage (0–IV) | 0.58 | 0.65 |
+| PRJNA773202 | probing depth | 0.76 | 0.68 |
+| PRJNA773202 | clinical attachment loss | 0.70 | 0.63 |
+| PRJNA773202 | bleeding on probing | 0.74 | 0.68 |
+| PRJNA1470369 | stage (0–IV) | 0.52 | 0.49 |
+| PRJNA1294584 | stage (II–IV, no health group) | 0.02 | 0.24 |
+
+All correlations above have q < 10⁻⁹, except PRJNA1294584 (q ≥ 0.07). The
+indices track severity across health and disease; within periodontitis
+alone (PRJNA1294584) the gradient with stage was not detected.
+
+## Robustness
+
+| Factor | Result |
+|---|---|
+| Classifier (naive Bayes vs vsearch) | Spearman ρ ≥ 0.98 for the SMDI in every cohort; pooled SMDI AUC 0.94 (naive Bayes) and 0.93 (vsearch). Orange and Yellow agree less (ρ down to 0.86). |
+| 16S region (same samples) | V1-V3 vs V3-V4 (PRJNA773195/773202): ρ 0.96, AUC 0.95 in both, but the SMDI is 0.41 lower in V3-V4 (p = 2 × 10⁻¹⁰). V1-V2 vs V4 (SRP009299): ρ 0.90, AUC 0.93 and 0.89, V4 0.67 higher. |
+| Rarefaction (1,000–10,000 reads, 10 draws) | Primary cohorts: SMDI AUC within 0.02 of the unrarefied value. The shallow non-independent datasets lost up to 0.10 (SRP009299 V1-V2 at 5,000 reads, where few samples remain). |
+| Fixed pseudocount (10⁻⁶–10⁻⁴) | AUC within 0.02 and ρ ≥ 0.98 with the published definition, but the median SMDI shifts by up to 1.3 units, and sensitivity and specificity at a fixed cut-off shift with it. |
+
+Ranking and discrimination are robust. Absolute SMDI values are not:
+they depend on region, database and pseudocount. Compare SMDI values
+computed in the same run and with the same pipeline, and re-estimate
+cut-offs for each protocol.
+
+## Deviations from the plan
+
+| # | Deviation | Reason |
+|---|---|---|
+| 1 | SRP009299 denoised with Deblur instead of DADA2 | Reads deposited without real quality scores; DADA2 cannot fit an error model. Decided from read QC, before any index. |
+| 2 | PRJNA773202/773195: primers removed with cutadapt instead of a fixed trim | Primers follow 0–2 nt spacers. A fallback rule for V1-V3 was written before any index (not triggered). |
+| 3 | PRJNA1294584 removed from the health vs periodontitis contrast | Its "control" group is gingivitis (Sawangpanyangkura et al. 2026). Found before the cohort was processed; it enters the stage correlation only. |
+| 4 | PRJNA773202 clinical measures added to Q6 | The plan asks for clinical data "wherever public"; they were found in the BioSample attributes before any index. |
+| 5 | SRP009299 metadata regenerated with the versioned `prepare.py` | Older files lacked the standard columns. Sample IDs and health/periodontitis labels were identical. |
+| 6 | AUC confidence and prediction limits truncated to [0, 1] | The primary model is on the AUC scale and some limits exceeded 1. Presentation rule only; estimates unchanged. |
+| 7 | Logit-scale random-effects model added | Post hoc sensitivity analysis for deviation 6; it gives a coherent estimate, CI and PI. |
+
+## Limits
+
+* All discrimination data come from case-control designs comparing
+  periodontal health with established periodontitis. These extremes
+  overstate the accuracy expected in clinical populations, where gingivitis
+  and early disease dominate.
+* Only six cohorts enter the primary meta-analysis, so heterogeneity
+  estimates are imprecise, and several cohorts lack published clinical
+  metadata.
+* The indices are measures of microbial composition for research. They are
+  not diagnostic or prognostic tests.

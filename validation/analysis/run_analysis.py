@@ -89,6 +89,7 @@ for c in cohorts[cohorts["case_control"] == "yes"].itertuples():
                                       alternative="two-sided").pvalue})
 disc = save(pd.DataFrame(disc_rows), "discrimination.tsv")
 
+
 def bounded(auc, var, method="REML", hksj=True):
     """Pooled AUC on the AUC scale (plan, section 6.1). The CI and the 95 %
     prediction interval are truncated to [0, 1], the range of an AUC (D27);

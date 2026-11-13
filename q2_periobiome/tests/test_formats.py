@@ -5,7 +5,7 @@ import qiime2
 from qiime2.plugin import ValidationError
 from qiime2.plugin.testing import TestPluginBase
 
-from q2_periodontitis._format import (
+from q2_periobiome._format import (
     SocranskyComplexesFormat,
     SocranskyComplexesDirectoryFormat,
     PeriodontalIndicesFormat,
@@ -19,7 +19,7 @@ from q2_periodontitis._format import (
     DysbiosisSignatureFormat,
     DysbiosisSignatureDirectoryFormat
 )
-from q2_periodontitis._type import (
+from q2_periobiome._type import (
     SocranskyComplexes,
     PeriodontalIndices,
     PeriodontalIndicesDelta,
@@ -31,7 +31,7 @@ from q2_types.sample_data import SampleData
 
 
 class TestTypes(TestPluginBase):
-    package = "q2_periodontitis.tests"
+    package = "q2_periobiome.tests"
 
     def test_types_registered(self):
         for semantic_type in (SocranskyComplexes, PeriodontalIndices,
@@ -56,7 +56,7 @@ class TestTypes(TestPluginBase):
 
 
 class TestFormatValidation(TestPluginBase):
-    package = "q2_periodontitis.tests"
+    package = "q2_periobiome.tests"
 
     def test_valid_formats(self):
         for fmt, name in [(SocranskyComplexesFormat, "complexes.tsv"),
@@ -114,7 +114,7 @@ class TestFormatValidation(TestPluginBase):
 
 
 class TestTransformers(TestPluginBase):
-    package = "q2_periodontitis.tests"
+    package = "q2_periobiome.tests"
 
     def roundtrip(self, fmt, filename):
         _, df = self.transform_format(fmt, pd.DataFrame, filename=filename)

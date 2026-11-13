@@ -7,16 +7,16 @@ describes how the code is organised.
 
 | File | Content |
 | :--- | :--- |
-| `q2_periodontitis/_methods.py` | Taxonomy parsing, reference handling, complex assignment, CLR / SMDI, `collapse_complexes`, `delta_indices`. |
-| `q2_periodontitis/_visualizer.py` | `summarize`: report rendering, analysis units, group tests, BH correction. |
-| `q2_periodontitis/_type.py`, `_format.py`, `_transformer.py` | Semantic types, file formats and their validation, DataFrame / Metadata transformers. |
-| `q2_periodontitis/plugin_setup.py` | Action and type registration. |
-| `q2_periodontitis/data/socransky_complexes.tsv` | Built-in reference: `taxon`, `complex`, `level`, `source`, `evidence`. |
-| `q2_periodontitis/data/synonyms_map.tsv` | Historical → current names. |
-| `q2_periodontitis/data/perezchaparro2014_moderate.tsv` | Moderate-evidence taxa with HMT numbers. |
-| `q2_periodontitis/data/smdi_chen2022_species.tsv` | Built-in SMDI signature (49 species, MDG ≥ 0.4), with original labels and MDG. |
-| `q2_periodontitis/data/smdi_simplified_genus.tsv` | Built-in simplified SMDI signature (3 genera). |
-| `q2_periodontitis/assets/web/` | Jinja2 template, CSS and bundled Vega libraries. |
+| `q2_periobiome/_methods.py` | Taxonomy parsing, reference handling, complex assignment, CLR / SMDI, `collapse_complexes`, `delta_indices`. |
+| `q2_periobiome/_visualizer.py` | `summarize`: report rendering, analysis units, group tests, BH correction. |
+| `q2_periobiome/_type.py`, `_format.py`, `_transformer.py` | Semantic types, file formats and their validation, DataFrame / Metadata transformers. |
+| `q2_periobiome/plugin_setup.py` | Action and type registration. |
+| `q2_periobiome/data/socransky_complexes.tsv` | Built-in reference: `taxon`, `complex`, `level`, `source`, `evidence`. |
+| `q2_periobiome/data/synonyms_map.tsv` | Historical → current names. |
+| `q2_periobiome/data/perezchaparro2014_moderate.tsv` | Moderate-evidence taxa with HMT numbers. |
+| `q2_periobiome/data/smdi_chen2022_species.tsv` | Built-in SMDI signature (49 species, MDG ≥ 0.4), with original labels and MDG. |
+| `q2_periobiome/data/smdi_simplified_genus.tsv` | Built-in simplified SMDI signature (3 genera). |
+| `q2_periobiome/assets/web/` | Jinja2 template, CSS and bundled Vega libraries. |
 | `validation/` | Reproducible validation on SRA SRP075100 (not installed with the package). |
 
 ## `collapse_complexes` algorithm

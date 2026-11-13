@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Processes one 16S cohort from its QIIME 2 manifest to q2-periodontitis
+# Processes one 16S cohort from its QIIME 2 manifest to q2-periobiome
 # outputs, with two taxonomic classifiers:
 #
 #   nb       naive Bayes on eHOMD V15.23 trimmed to the cohort's primers
@@ -25,8 +25,8 @@
 #                   deblur denoise-16S
 #   PRIMER_F, PRIMER_R  primers used to trim the reference for naive Bayes
 # Environment: THREADS (default 4), REF_DIR (default <cohort_dir>/../ehomd).
-# Requires an activated QIIME 2 amplicon environment with q2-periodontitis.
-# Every step is skipped when its output exists, except q2-periodontitis,
+# Requires an activated QIIME 2 amplicon environment with q2-periobiome.
+# Every step is skipped when its output exists, except q2-periobiome,
 # which always runs so that the outputs match the installed plugin.
 set -euo pipefail
 
@@ -129,8 +129,8 @@ if [ ! -s taxonomy-vsearch.qza ]; then
 fi
 
 for clf in nb vsearch; do
-  log "q2-periodontitis ($clf)"
-  qiime periodontitis collapse-complexes --i-table table.qza \
+  log "q2-periobiome ($clf)"
+  qiime periobiome collapse-complexes --i-table table.qza \
     --i-taxonomy "taxonomy-$clf.qza" \
     --o-complex-table "complexes-$clf.qza" --o-indices "indices-$clf.qza" \
     --o-mapping "mapping-$clf.qza" > /dev/null 2> "warnings-$clf.txt" || {
@@ -146,5 +146,5 @@ for a in table denoising-stats; do
     --output-path "export-$a" > /dev/null
 done
 qiime --version | head -1 > versions.txt
-qiime info | grep -E "periodontitis|dada2|deblur|feature-classifier" >> versions.txt
+qiime info | grep -E "periobiome|dada2|deblur|feature-classifier" >> versions.txt
 log "DONE"

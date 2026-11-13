@@ -1,6 +1,6 @@
 # Tutorial
 
-This tutorial runs `q2-periodontitis` on subgingival 16S rRNA data in
+This tutorial runs `q2-periobiome` on subgingival 16S rRNA data in
 QIIME 2 (2026.10 or amplicon 2024.10).
 
 ## 0. Quick start on real data (about 10-15 minutes)
@@ -71,7 +71,7 @@ You need:
 ## 2. Collapse and compute the indices
 
 ```bash
-qiime periodontitis collapse-complexes \
+qiime periobiome collapse-complexes \
   --i-table table.qza --i-taxonomy taxonomy.qza \
   --o-complex-table complexes.qza --o-indices indices.qza --o-mapping mapping.qza
 ```
@@ -104,7 +104,7 @@ robust index.
 ```bash
 qiime tools import --type DysbiosisSignature \
   --input-path my-signature.tsv --output-path my-signature.qza
-qiime periodontitis collapse-complexes \
+qiime periobiome collapse-complexes \
   --i-table table.qza --i-taxonomy taxonomy.qza --i-smdi-signature my-signature.qza \
   --o-complex-table complexes.qza --o-indices indices.qza --o-mapping mapping.qza
 ```
@@ -127,7 +127,7 @@ Report them as such.
 ## 3. Compare groups
 
 ```bash
-qiime periodontitis summarize \
+qiime periobiome summarize \
   --i-complexes complexes.qza --i-indices indices.qza --i-mapping mapping.qza \
   --m-metadata-file metadata.tsv \
   --p-group-column status --p-subject-column subject \
@@ -143,7 +143,7 @@ linear-mixed-effects --p-metric SMDI_simplified`.
 ## 4. Treatment response
 
 ```bash
-qiime periodontitis delta-indices \
+qiime periobiome delta-indices \
   --i-indices indices.qza --m-metadata-file metadata.tsv \
   --p-subject-col site --p-group-col visit \
   --p-baseline-group baseline --p-target-group follow-up \

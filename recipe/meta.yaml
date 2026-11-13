@@ -1,4 +1,4 @@
-# conda recipe for q2-periodontitis (conda-build / bioconda format).
+# conda recipe for q2-periobiome (conda-build / bioconda format).
 #
 # qiime2 and q2-types are only published on the QIIME 2 channel
 # (https://packages.qiime2.org), not on conda-forge or bioconda, so this
@@ -10,7 +10,7 @@
 #   anaconda upload --user labiomics <path to the .conda file>
 #
 # Set Q2P_LOCAL_SOURCE=1 to build from this checkout instead of the tag.
-{% set name = "q2-periodontitis" %}
+{% set name = "q2-periobiome" %}
 {% set version = "2026.10.0" %}
 
 package:
@@ -21,7 +21,7 @@ source:
 {% if environ.get("Q2P_LOCAL_SOURCE") %}
   path: ..
 {% else %}
-  url: https://github.com/LaBiOmicS/q2-periodontitis/archive/refs/tags/{{ version }}.tar.gz
+  url: https://github.com/LaBiOmicS/q2-periobiome/archive/refs/tags/{{ version }}.tar.gz
   # TODO-AUTHOR: fill in after tagging: curl -sL <url> | sha256sum
   sha256: 0000000000000000000000000000000000000000000000000000000000000000
 {% endif %}
@@ -52,15 +52,15 @@ test:
     - pytest
     - q2cli
   imports:
-    - q2_periodontitis
-    - q2_periodontitis.plugin_setup
+    - q2_periobiome
+    - q2_periobiome.plugin_setup
   commands:
     - qiime dev refresh-cache
-    - qiime periodontitis --help
-    - pytest -q --pyargs q2_periodontitis
+    - qiime periobiome --help
+    - pytest -q --pyargs q2_periobiome
 
 about:
-  home: https://github.com/LaBiOmicS/q2-periodontitis
+  home: https://github.com/LaBiOmicS/q2-periobiome
   license: MIT
   license_family: MIT
   license_file: LICENSE
@@ -71,8 +71,8 @@ about:
     Socransky & Haffajee 2002), and computes the SMDI (Chen, Marsh &
     Al-Hebshi 2022), its simplified form, the moderate-evidence taxa of
     Perez-Chaparro et al. (2014) and quality-control measures.
-  doc_url: https://github.com/LaBiOmicS/q2-periodontitis/blob/main/docs/TUTORIAL.md
-  dev_url: https://github.com/LaBiOmicS/q2-periodontitis
+  doc_url: https://github.com/LaBiOmicS/q2-periobiome/blob/main/docs/TUTORIAL.md
+  dev_url: https://github.com/LaBiOmicS/q2-periobiome
 
 extra:
   recipe-maintainers:

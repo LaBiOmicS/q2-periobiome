@@ -1,19 +1,19 @@
-# Development tooling for q2-periodontitis, added on top of an official
+# Development tooling for q2-periobiome, added on top of an official
 # QIIME 2 environment. Supported and tested releases: 2024.10 (amplicon
 # distribution) and 2026.10 (the amplicon plugins are part of the main
 # distribution since 2026.4). See README.md, "Installation".
 #
 #   # QIIME 2 2026.10
 #   wget https://raw.githubusercontent.com/qiime2/distributions/refs/heads/dev/2026.10/qiime2/released/rachis-qiime2-linux-64-conda.yml
-#   conda env create -n q2-periodontitis --file rachis-qiime2-linux-64-conda.yml
-#   conda env update -n q2-periodontitis --file environment.yml
-#   conda activate q2-periodontitis
+#   conda env create -n q2-periobiome --file rachis-qiime2-linux-64-conda.yml
+#   conda env update -n q2-periobiome --file environment.yml
+#   conda activate q2-periobiome
 #   pip install -e . --no-deps
 #
 # Every runtime dependency (qiime2, q2-types, numpy, pandas, scipy,
 # biom-format, jinja2) is already part of those distributions; this file
 # only adds the test, coverage and lint tools.
-name: q2-periodontitis
+name: q2-periobiome
 channels:
   - conda-forge
 dependencies:

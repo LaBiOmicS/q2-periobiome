@@ -1,4 +1,4 @@
-"""Collects the q2-periodontitis outputs of every processed cohort.
+"""Collects the q2-periobiome outputs of every processed cohort.
 
     python -I collect.py <data_dir> <results_dir>
 

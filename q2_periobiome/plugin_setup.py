@@ -30,19 +30,22 @@ from ._methods import collapse_complexes, delta_indices
 from ._visualizer import summarize
 from . import _examples as ex
 
-citations = Citations.load('citations.bib', package='q2_periodontitis')
+citations = Citations.load('citations.bib', package='q2_periobiome')
 
 plugin = Plugin(
-    name='periodontitis',
+    name='periobiome',
     version=__version__,
-    website='https://github.com/LaBiOmicS/q2-periodontitis',
-    package='q2_periodontitis',
+    website='https://github.com/LaBiOmicS/q2-periobiome',
+    package='q2_periobiome',
     citations=[citations['socransky1998microbial'], citations['socransky2002dental']],
-    description='QIIME 2 plugin that collapses subgingival amplicon '
-                'profiles into the Socransky microbial complexes and '
-                'computes the published Subgingival Microbial Dysbiosis '
-                'Index (SMDI).',
-    short_description='Plugin for Periodontal Biofilm & Dysbiosis Characterization.'
+    description='Socransky complexes and dysbiosis indices for '
+                'subgingival 16S rRNA data. Collapses amplicon profiles '
+                'into the Socransky microbial complexes and computes the '
+                'published Subgingival Microbial Dysbiosis Index (SMDI) '
+                'and the Perez-Chaparro (2014) moderate-evidence fraction, '
+                'with per-sample quality control. Research use only: the '
+                'indices are not diagnostic or prognostic tests.',
+    short_description='Socransky complexes and dysbiosis indices for subgingival 16S data.'
 )
 
 # Register Directory Formats
@@ -258,4 +261,4 @@ plugin.visualizers.register_function(
                 'Benjamini-Hochberg q-values.'
 )
 
-import q2_periodontitis._transformer  # noqa: E402,F401  (registers transformers)
+import q2_periobiome._transformer  # noqa: E402,F401  (registers transformers)

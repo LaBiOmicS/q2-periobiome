@@ -1,5 +1,5 @@
 """
-q2-periodontitis
+q2-periobiome
 ================
 QIIME 2 plugin for subgingival biofilm ecological characterization,
 Socransky complexes collapse, and dysbiosis indices.

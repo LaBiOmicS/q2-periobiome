@@ -3,9 +3,9 @@ requires = ["setuptools>=64"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "q2-periodontitis"
+name = "q2-periobiome"
 dynamic = ["version"]
-description = "QIIME 2 plugin for subgingival biofilm ecological characterization, Socransky complexes collapse, and dysbiosis indices."
+description = "QIIME 2 plugin: Socransky complexes and dysbiosis indices for subgingival 16S rRNA data."
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.10"
@@ -30,19 +30,19 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/LaBiOmicS/q2-periodontitis"
+Homepage = "https://github.com/LaBiOmicS/q2-periobiome"
 
 [project.entry-points."qiime2.plugins"]
-"q2-periodontitis" = "q2_periodontitis.plugin_setup:plugin"
+"q2-periobiome" = "q2_periobiome.plugin_setup:plugin"
 
 [tool.setuptools.dynamic]
-version = { attr = "q2_periodontitis._version.__version__" }
+version = { attr = "q2_periobiome._version.__version__" }
 
 [tool.setuptools.packages.find]
-include = ["q2_periodontitis*"]
+include = ["q2_periobiome*"]
 
 [tool.setuptools.package-data]
-q2_periodontitis = [
+q2_periobiome = [
     "citations.bib",
     "data/*.tsv",
     "assets/web/*.html",
@@ -54,11 +54,11 @@ q2_periodontitis = [
 [tool.flake8]
 max-line-length = 99
 exclude = [".git", "__pycache__", "build", "dist", "*.egg-info",
-           "q2_periodontitis/assets", "validation/search"]
+           "q2_periobiome/assets", "validation/search"]
 
 [tool.pytest.ini_options]
-testpaths = ["q2_periodontitis", "validation/analysis/tests"]
+testpaths = ["q2_periobiome", "validation/analysis/tests"]
 
 [tool.coverage.run]
-source = ["q2_periodontitis"]
-omit = ["q2_periodontitis/tests/*"]
+source = ["q2_periobiome"]
+omit = ["q2_periobiome/tests/*"]

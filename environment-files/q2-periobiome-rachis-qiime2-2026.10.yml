@@ -6,4 +6,4 @@ dependencies:
   - rachis-qiime2
   - pip
   - pip:
-    - q2-periodontitis@git+https://github.com/LaBiOmicS/q2-periodontitis.git@2026.10.0
+    - q2-periobiome@git+https://github.com/LaBiOmicS/q2-periobiome.git@2026.10.0

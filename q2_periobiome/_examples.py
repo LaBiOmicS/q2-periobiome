@@ -1,4 +1,4 @@
-"""Usage examples of the q2-periodontitis actions (qiime2.plugin.usage).
+"""Usage examples of the q2-periobiome actions (qiime2.plugin.usage).
 
 The example data are built in memory: four samples of two subjects before
 and after therapy, with taxa from the Socransky complexes and the SMDI
@@ -61,7 +61,7 @@ def _collapse(use, **params):
     table = use.init_artifact("feature_table", _table_factory)
     taxonomy = use.init_artifact("taxonomy", _taxonomy_factory)
     return use.action(
-        use.UsageAction("periodontitis", "collapse_complexes"),
+        use.UsageAction("periobiome", "collapse_complexes"),
         use.UsageInputs(table=table, taxonomy=taxonomy, **params),
         use.UsageOutputNames(complex_table="complexes", indices="indices",
                              mapping="mapping"))
@@ -84,7 +84,7 @@ def delta_indices_paired(use):
     _, indices, _ = _collapse(use)
     metadata = use.init_metadata("metadata", _metadata_factory)
     delta, = use.action(
-        use.UsageAction("periodontitis", "delta_indices"),
+        use.UsageAction("periobiome", "delta_indices"),
         use.UsageInputs(indices=indices, metadata=metadata,
                         subject_col="subject", group_col="visit",
                         baseline_group="baseline",
@@ -97,7 +97,7 @@ def summarize_by_group(use):
     complexes, indices, mapping = _collapse(use)
     metadata = use.init_metadata("metadata", _metadata_factory)
     viz, = use.action(
-        use.UsageAction("periodontitis", "summarize"),
+        use.UsageAction("periobiome", "summarize"),
         use.UsageInputs(complexes=complexes, indices=indices,
                         mapping=mapping, metadata=metadata,
                         group_column="visit", subject_column="subject"),

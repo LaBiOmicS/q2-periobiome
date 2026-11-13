@@ -54,16 +54,16 @@ jobs:
       - name: Add test tooling (environment.yml)
         run: micromamba env update -n q2-${{ matrix.qiime2 }} -f environment.yml -y
 
-      - name: Install q2-periodontitis
+      - name: Install q2-periobiome
         run: |
           pip install -e . --no-deps
           qiime dev refresh-cache
-          qiime periodontitis --help
+          qiime periobiome --help
 
       - name: Run tests with coverage
         run: |
-          pytest --cov=q2_periodontitis --cov-report=term-missing \
-                 --cov-report=xml q2_periodontitis validation/analysis/tests
+          pytest --cov=q2_periobiome --cov-report=term-missing \
+                 --cov-report=xml q2_periobiome validation/analysis/tests
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
@@ -75,8 +75,8 @@ jobs:
         run: |
           pip wheel . --no-deps --no-build-isolation -w dist
           python -m zipfile -l dist/*.whl | tee wheel-contents.txt
-          for f in q2_periodontitis/citations.bib q2_periodontitis/data/socransky_complexes.tsv \
-                   q2_periodontitis/assets/web/index.html q2_periodontitis/assets/web/js/vega.min.js \
-                   q2_periodontitis/_examples.py entry_points.txt; do
+          for f in q2_periobiome/citations.bib q2_periobiome/data/socransky_complexes.tsv \
+                   q2_periobiome/assets/web/index.html q2_periobiome/assets/web/js/vega.min.js \
+                   q2_periobiome/_examples.py entry_points.txt; do
             grep -q "$f" wheel-contents.txt || { echo "missing $f"; exit 1; }
           done

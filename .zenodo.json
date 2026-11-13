@@ -1,5 +1,5 @@
 {
-  "title": "q2-periodontitis: a QIIME 2 plugin for Socransky complexes and the Subgingival Microbial Dysbiosis Index in 16S rRNA amplicon data",
+  "title": "q2-periobiome: a QIIME 2 plugin for Socransky complexes and the Subgingival Microbial Dysbiosis Index in 16S rRNA amplicon data",
   "upload_type": "software",
   "version": "2026.10.0",
   "description": "<p>QIIME 2 plugin that summarises subgingival 16S rRNA amplicon profiles as Socransky microbial complexes and computes the published Subgingival Microbial Dysbiosis Index (SMDI; Chen, Marsh &amp; Al-Hebshi 2022), its simplified three-genus form, the moderate-evidence taxa of P&eacute;rez-Chaparro et al. (2014) and quality-control measures. Validated on public subgingival 16S cohorts (docs/VALIDATION.md).</p>",
@@ -14,7 +14,7 @@
   "access_right": "open",
   "keywords": ["periodontitis", "QIIME 2", "microbiome", "Socransky complexes", "SMDI", "dysbiosis index", "16S rRNA"],
   "related_identifiers": [
-    {"identifier": "https://github.com/LaBiOmicS/q2-periodontitis", "relation": "isSupplementTo", "scheme": "url"},
+    {"identifier": "https://github.com/LaBiOmicS/q2-periobiome", "relation": "isSupplementTo", "scheme": "url"},
     {"identifier": "10.1177/00220345211035775", "relation": "references", "scheme": "doi"},
     {"identifier": "10.1111/j.1600-051X.1998.tb02419.x", "relation": "references", "scheme": "doi"},
     {"identifier": "10.1034/j.1600-0757.2002.280102.x", "relation": "references", "scheme": "doi"},

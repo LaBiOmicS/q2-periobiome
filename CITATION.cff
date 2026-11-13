@@ -1,11 +1,11 @@
 cff-version: 1.2.0
-message: "If you use q2-periodontitis in your research, please cite it as below, together with the papers that define the complexes and indices (see README.md, Citations)."
-title: "q2-periodontitis: a QIIME 2 plugin for Socransky complexes and the Subgingival Microbial Dysbiosis Index in 16S rRNA amplicon data"
+message: "If you use q2-periobiome in your research, please cite it as below, together with the papers that define the complexes and indices (see README.md, Citations)."
+title: "q2-periobiome: a QIIME 2 plugin for Socransky complexes and the Subgingival Microbial Dysbiosis Index in 16S rRNA amplicon data"
 version: 2026.10.0
 # Set to the tag date when the release is tagged
 date-released: 2026-10-23
-url: "https://github.com/LaBiOmicS/q2-periodontitis"
-repository-code: "https://github.com/LaBiOmicS/q2-periodontitis"
+url: "https://github.com/LaBiOmicS/q2-periobiome"
+repository-code: "https://github.com/LaBiOmicS/q2-periobiome"
 license: MIT
 type: software
 authors:

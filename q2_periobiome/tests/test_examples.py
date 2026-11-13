@@ -2,7 +2,7 @@ from qiime2.plugin.testing import TestPluginBase
 
 
 class TestUsageExamples(TestPluginBase):
-    package = "q2_periodontitis.tests"
+    package = "q2_periobiome.tests"
 
     def test_examples(self):
         self.execute_examples()

@@ -4,7 +4,7 @@
 #   bash validation/package_zenodo.sh <data_dir> <out_dir>
 #
 # Copies, for every processed cohort, the small intermediate artifacts
-# (feature table, representative sequences, taxonomies, q2-periodontitis
+# (feature table, representative sequences, taxonomies, q2-periobiome
 # outputs, denoising statistics, standardised metadata) - no reads - plus
 # validation/results/, the pipeline scripts, the locked environment(s) and
 # SHA256 checksums.

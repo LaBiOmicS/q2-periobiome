@@ -66,6 +66,8 @@ html { scroll-behavior: smooth; scroll-padding-top: 72px; }
 body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 16.5px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
 a { color: var(--teal); text-underline-offset: 3px; text-decoration-thickness: 1px; }
 a:hover { color: var(--teal-ink); }
+:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; border-radius: 4px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 code, pre, .mono { font-family: var(--mono); }
 code { font-size: .86em; background: var(--line-2); padding: .12em .4em; border-radius: 5px; color: var(--ink); }
 .wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
@@ -98,7 +100,7 @@ code { font-size: .86em; background: var(--line-2); padding: .12em .4em; border-
 .kicker b { background: var(--teal); color: #fff; font-weight: 600; border-radius: 999px; padding: 1px 8px; }
 :root[data-theme="dark"] .kicker b { color: #04201c; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .kicker b { color: #04201c; } }
-.hero h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); line-height: 1.06; letter-spacing: -.035em; margin: 20px 0 18px; font-weight: 700; }
+.hero h1 { text-wrap: balance; font-size: clamp(2.2rem, 5vw, 3.5rem); line-height: 1.06; letter-spacing: -.035em; margin: 20px 0 18px; font-weight: 700; }
 .hero h1 .hl-t { color: var(--teal); }
 .hero h1 .hl-r { color: var(--c-red); }
 .lede { font-size: clamp(1.05rem, 2vw, 1.18rem); color: var(--ink-2); margin: 0 0 30px; max-width: 34em; }
@@ -111,7 +113,7 @@ code { font-size: .86em; background: var(--line-2); padding: .12em .4em; border-
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn.primary, :root:not([data-theme="light"]) .btn.primary:hover { color: #04201c; } }
 .btn svg { width: 17px; height: 17px; }
 .pipcmd { margin-top: 22px; display: inline-flex; align-items: center; justify-content: space-between; gap: 12px; font: .86rem var(--mono); color: var(--ink-2); border: 1px dashed var(--line); padding: 8px 8px 8px 14px; border-radius: 10px; max-width: 100%; }
-.pipcmd span { white-space: normal; overflow-wrap: anywhere; line-height: 1.5; }
+.pipcmd span { white-space: normal; overflow-wrap: break-word; line-height: 1.5; min-width: 0; }
 .pipcmd .dollar { color: var(--muted); user-select: none; }
 
 /* Terminal */
@@ -119,7 +121,8 @@ code { font-size: .86em; background: var(--line-2); padding: .12em .4em; border-
 .term-bar { display: flex; align-items: center; gap: 7px; padding: 12px 16px; border-bottom: 1px solid var(--dark-line); background: var(--dark-2); }
 .term-bar i { width: 11px; height: 11px; border-radius: 50%; background: #2c4a46; }
 .term-bar span { margin-left: 10px; font: .78rem var(--mono); color: var(--dark-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.term pre { margin: 0; padding: 18px 20px 20px; font: .78rem/1.75 var(--mono); overflow-x: auto; }
+.term pre { margin: 0; padding: 18px 20px 20px; font: .8rem/1.7 var(--mono); white-space: pre-wrap; overflow-wrap: anywhere; }
+@media (max-width: 420px) { .term pre { font-size: .72rem; padding: 14px 14px 16px; } }
 .term .p { color: var(--dark-muted); }
 .term .cmd { color: #fff; }
 .term .dim { color: var(--dark-muted); }
@@ -137,7 +140,7 @@ code { font-size: .86em; background: var(--line-2); padding: .12em .4em; border-
 .stat:nth-child(odd) { border-left: 0; padding-left: 0; }
 @media (min-width: 760px) { .stat:nth-child(odd) { border-left: 1px solid var(--line); padding-left: 20px; } .stat:first-child { border-left: 0; padding-left: 0; } }
 @media (max-width: 759px) { .stat:nth-child(-n+2) { border-bottom: 1px solid var(--line); } }
-.stat b { display: block; font-size: 2.1rem; line-height: 1.1; letter-spacing: -.03em; font-weight: 700; }
+.stat b { font-variant-numeric: tabular-nums; display: block; font-size: 2.1rem; line-height: 1.1; letter-spacing: -.03em; font-weight: 700; }
 .stat span { color: var(--muted); font-size: .92rem; }
 
 /* ---------- Sections ---------- */
@@ -145,7 +148,7 @@ section { padding: 84px 0; }
 section + section { border-top: 1px solid var(--line); }
 .sec-head { display: grid; gap: 10px; margin-bottom: 40px; max-width: 760px; }
 .label { font: 600 .76rem var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--teal); }
-.sec-head h2 { font-size: clamp(1.7rem, 3.4vw, 2.4rem); line-height: 1.15; letter-spacing: -.025em; margin: 0; }
+.sec-head h2 { text-wrap: balance; font-size: clamp(1.7rem, 3.4vw, 2.4rem); line-height: 1.15; letter-spacing: -.025em; margin: 0; }
 .sec-head p { margin: 0; color: var(--ink-2); font-size: 1.06rem; }
 
 /* Features */
@@ -154,7 +157,7 @@ section + section { border-top: 1px solid var(--line); }
 @media (min-width: 1000px) { .features { grid-template-columns: repeat(3, 1fr); } }
 .feature { padding: 26px 24px 28px 0; border-bottom: 1px solid var(--line); }
 @media (min-width: 720px) { .feature { padding-right: 32px; } }
-.feature .n { font: 500 .78rem var(--mono); color: var(--muted); }
+.feature .n { font: 600 .72rem var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--teal); }
 .feature h3 { font-size: 1.12rem; margin: 6px 0 8px; letter-spacing: -.01em; }
 .feature p { margin: 0; color: var(--ink-2); font-size: .97rem; }
 .notice { margin-top: 36px; display: flex; gap: 14px; align-items: flex-start; background: var(--amber-soft); border-radius: var(--radius); padding: 16px 20px; color: var(--ink); }
@@ -165,28 +168,25 @@ section + section { border-top: 1px solid var(--line); }
 .pyr-grid { display: grid; gap: 28px; grid-template-columns: 1fr; align-items: center; }
 @media (min-width: 900px) { .pyr-grid { grid-template-columns: .9fr 1.1fr; gap: 44px; } }
 .figure { background: var(--paper); border: 1px solid var(--line); border-radius: 18px; padding: 26px 24px 18px; box-shadow: var(--shadow); min-width: 0; }
-.figure .scroll { overflow-x: auto; margin: 0 -4px; padding: 0 4px; }
-.figure svg { display: block; width: 100%; height: auto; }
+.figure svg { display: block; width: 100%; max-width: 520px; margin: 0 auto; height: auto; }
 .figure .cap { display: flex; flex-wrap: wrap; gap: 8px 22px; align-items: center; border-top: 1px solid var(--line-2); margin-top: 14px; padding-top: 14px; font-size: .88rem; color: var(--muted); }
-.figure .cap .sw { display: inline-block; width: 18px; height: 8px; border-radius: 3px; margin-right: 7px; vertical-align: 1px; }
 .cx { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
-.cx li { display: grid; grid-template-columns: 14px 1fr; gap: 4px 14px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+.cx li { display: grid; grid-template-columns: 14px 1fr; gap: 4px 14px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.cx li > div { min-width: 0; }
 .cx i { width: 12px; height: 12px; border-radius: 4px; margin-top: 6px; }
 .cx b { font-weight: 700; }
 .cx span { color: var(--ink-2); font-size: .95rem; }
 .cx em { font-style: italic; }
 
-/* Index table */
-.pep { margin-top: 36px; background: var(--paper); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
-.pep .scroll { overflow-x: auto; }
-.pep table { width: 100%; border-collapse: collapse; font-size: .93rem; }
-.pep th { text-align: left; font: 600 .74rem var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding: 14px 16px; border-bottom: 1px solid var(--line); white-space: nowrap; }
-.pep td { padding: 13px 16px; border-bottom: 1px solid var(--line-2); vertical-align: top; }
-.pep tr:last-child td { border-bottom: 0; }
-.pep tbody tr:hover { background: color-mix(in srgb, var(--teal-soft) 45%, transparent); }
-.pep .name { font-family: var(--mono); font-weight: 600; font-size: .86rem; white-space: nowrap; }
-.pep .num { font-family: var(--mono); font-size: .86rem; white-space: nowrap; color: var(--ink-2); }
-.pep td.desc { min-width: 280px; color: var(--ink-2); }
+/* Outputs list */
+.outputs { margin-top: 36px; background: var(--paper); border: 1px solid var(--line); border-radius: 18px; }
+.out { display: grid; grid-template-columns: 1fr; gap: 4px 24px; padding: 16px 20px; border-bottom: 1px solid var(--line-2); }
+.out:last-child { border-bottom: 0; }
+@media (min-width: 760px) { .out { grid-template-columns: 13rem 1fr; padding: 16px 24px; } }
+.out dt { display: grid; gap: 2px; margin: 0; }
+.out dt b { font: 600 .9rem var(--mono); color: var(--ink); }
+.out dt span { font-size: .84rem; color: var(--muted); }
+.out dd { margin: 0; color: var(--ink-2); font-size: .96rem; min-width: 0; }
 .fineprint { font-size: .87rem; color: var(--muted); margin: 14px 2px 0; }
 
 /* Method */
@@ -215,20 +215,38 @@ section + section { border-top: 1px solid var(--line); }
 #validation .sec-head p { color: var(--dark-muted); }
 #validation h2 { color: #f2f7f5; }
 #validation a { color: var(--term-teal); }
-.forest { background: var(--dark-2); border: 1px solid var(--dark-line); border-radius: 18px; padding: 22px 22px 14px; }
-.forest .scroll { overflow-x: auto; }
-.forest svg { display: block; width: 100%; min-width: 680px; height: auto; }
-.forest .cap { display: flex; flex-wrap: wrap; gap: 8px 22px; border-top: 1px solid var(--dark-line); margin-top: 12px; padding-top: 12px; font-size: .86rem; color: var(--dark-muted); }
+.forest { background: var(--dark-2); border: 1px solid var(--dark-line); border-radius: 18px; padding: 20px 22px 16px; margin: 0; }
+.fp-head, .fp-row, .fp-axis { display: grid; grid-template-columns: 1fr; gap: 4px 16px; align-items: center; }
+@media (min-width: 720px) { .fp-head, .fp-row, .fp-axis { grid-template-columns: 9.5rem 8rem 1fr; } }
+.fp-head { font: .74rem var(--mono); color: var(--dark-muted); padding-bottom: 8px; border-bottom: 1px solid var(--dark-line); }
+.fp-head .fp-dir { display: flex; justify-content: space-between; gap: 8px; }
+@media (max-width: 719px) { .fp-head > span:not(.fp-dir), .fp-axis > span:not(.fp-scale) { display: none; } }
+.fp-row { padding: 9px 0; border-bottom: 1px solid var(--dark-line); }
+.fp-row.sep { border-bottom: 1px solid var(--dark-muted); }
+.fp-name { font-weight: 600; color: #f2f7f5; font-size: .95rem; display: flex; align-items: center; gap: 8px; }
+.fp-name i { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.fp-val { font: .82rem var(--mono); color: var(--dark-muted); white-space: nowrap; }
+@media (max-width: 719px) { .fp-row { grid-template-columns: 1fr auto; } .fp-track { grid-column: 1 / -1; } }
+.fp-track { position: relative; height: 22px; background-image: linear-gradient(to right, var(--dark-line) 1px, transparent 1px); background-size: 25% 100%; border-right: 1px solid var(--dark-line); }
+.fp-track::after { content: ""; position: absolute; left: 50%; top: -9px; bottom: -9px; border-left: 1px dashed var(--dark-muted); }
+.fp-ci { position: absolute; top: 50%; height: 3px; margin-top: -1.5px; border-radius: 2px; }
+.fp-dot { position: absolute; top: 50%; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; z-index: 1; }
+.fp-axis { padding-top: 6px; }
+.fp-scale { position: relative; height: 18px; font: .74rem var(--mono); color: var(--dark-muted); }
+.fp-scale span { position: absolute; transform: translateX(-50%); }
+.fp-scale span:first-child { transform: none; }
+.fp-scale span:last-child { transform: translateX(-100%); }
+.forest .cap { border-top: 1px solid var(--dark-line); margin-top: 12px; padding-top: 12px; font-size: .86rem; color: var(--dark-muted); }
 .findings { margin-top: 28px; display: grid; gap: 14px; grid-template-columns: 1fr; }
 @media (min-width: 720px) { .findings { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1000px) { .findings { grid-template-columns: repeat(3, 1fr); } }
-.finding { background: var(--dark-2); border: 1px solid var(--dark-line); border-radius: var(--radius); padding: 18px 20px; }
+.finding { background: var(--dark-2); border: 1px solid var(--dark-line); border-radius: var(--radius); padding: 18px 20px; display: grid; grid-template-rows: auto auto auto 1fr; align-content: start; }
 .finding .tag { font: 600 .72rem var(--mono); letter-spacing: .06em; text-transform: uppercase; }
 .finding .tag.ok { color: var(--term-teal); }
 .finding .tag.no { color: var(--term-amber); }
 .finding h3 { margin: 6px 0 6px; font-size: 1.05rem; color: #f2f7f5; }
 .finding p { margin: 0; font-size: .94rem; color: var(--dark-text); }
-.finding b.big { display: block; font-size: 1.7rem; letter-spacing: -.02em; color: #fff; margin-top: 4px; }
+.finding b.big { display: block; font-size: 1.6rem; line-height: 1.2; letter-spacing: -.02em; color: #fff; margin: 6px 0 2px; font-variant-numeric: tabular-nums; }
 .val-foot { margin-top: 26px; font-size: .9rem; color: var(--dark-muted); }
 
 /* Install */
@@ -236,15 +254,16 @@ section + section { border-top: 1px solid var(--line); }
 .install-grid > * { min-width: 0; }
 @media (min-width: 900px) { .install-grid { grid-template-columns: .8fr 1.2fr; } }
 .req { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
-.req li { display: flex; gap: 10px; color: var(--ink-2); font-size: .97rem; }
-.req li::before { content: ""; flex: none; width: 6px; height: 6px; margin-top: 10px; border-radius: 50%; background: var(--teal); }
-.tabs { display: inline-flex; gap: 4px; padding: 4px; background: var(--line-2); border-radius: 11px; margin-bottom: 14px; flex-wrap: wrap; }
+.req li { position: relative; padding-left: 16px; color: var(--ink-2); font-size: .97rem; }
+.req li::before { content: ""; position: absolute; left: 0; top: 10px; width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
+.tabs { max-width: 100%; display: inline-flex; gap: 4px; padding: 4px; background: var(--line-2); border-radius: 11px; margin-bottom: 14px; flex-wrap: wrap; }
 .tab { border: 0; background: none; color: var(--ink-2); padding: 7px 14px; border-radius: 8px; font: 600 .9rem var(--sans); cursor: pointer; }
 .tab[aria-selected="true"] { background: var(--paper); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
 .tabpanel[hidden] { display: none; }
 .tabpanel p { margin: 0 0 12px; color: var(--ink-2); font-size: .95rem; }
 .code { position: relative; background: var(--dark); color: var(--dark-text); border-radius: 12px; margin: 0 0 14px; }
-.code pre { margin: 0; padding: 16px 18px; overflow-x: auto; font: .83rem/1.7 var(--mono); }
+.code pre { margin: 0; padding: 16px 18px; padding-right: 76px; font: .83rem/1.7 var(--mono); white-space: pre-wrap; overflow-wrap: anywhere; }
+@media (max-width: 480px) { .code pre { font-size: .74rem; padding: 14px 14px 14px 14px; padding-top: 40px; } .recipe pre { font-size: .74rem; } }
 .code .c { color: var(--dark-muted); }
 .copy { position: absolute; top: 9px; right: 9px; font: 600 .74rem var(--sans); color: var(--dark-text); background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14); border-radius: 7px; padding: 4px 10px; cursor: pointer; }
 .copy:hover { background: rgba(255,255,255,.15); }
@@ -256,7 +275,7 @@ section + section { border-top: 1px solid var(--line); }
 .recipe { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; min-width: 0; }
 .recipe h3 { margin: 0 0 4px; font-size: .98rem; }
 .recipe p { margin: 0 0 10px; color: var(--muted); font-size: .9rem; }
-.recipe pre { margin: 0; font: .8rem/1.6 var(--mono); color: var(--ink-2); white-space: pre; overflow-x: auto; }
+.recipe pre { margin: 0; font: .8rem/1.6 var(--mono); color: var(--ink-2); white-space: pre-wrap; overflow-wrap: anywhere; background: var(--line-2); border-radius: 8px; padding: 10px 12px; }
 
 /* Scope */
 .scope { display: grid; gap: 18px; grid-template-columns: 1fr; }
@@ -319,26 +338,26 @@ footer a:hover { color: var(--teal); }
           Source code</a>
         <a class="btn" href="#validation">Validation</a>
       </div>
-      <div class="pipcmd"><span><span class="dollar">$ </span>pip install --no-deps git+https://github.com/LaBiOmicS/q2-periobiome.git</span><button class="copy" type="button" data-copy="pip install --no-deps git+https://github.com/LaBiOmicS/q2-periobiome.git">Copy</button></div>
+      <div class="pipcmd"><span><span class="dollar">$ </span>pip install --no-deps <wbr>git+https://<wbr>github.com/<wbr>LaBiOmicS/<wbr>q2-periobiome.git</span><button class="copy" type="button" data-copy="pip install --no-deps git+https://github.com/LaBiOmicS/q2-periobiome.git">Copy</button></div>
     </div>
     <div class="term" aria-label="Example run on public data (PRJNA863881)">
       <div class="term-bar"><i></i><i></i><i></i><span>PRJNA863881 · V3-V4 · eHOMD V15.23 naive Bayes</span></div>
 <pre><span class="p">$</span> <span class="cmd">qiime periobiome collapse-complexes \
-    --i-table table.qza --i-taxonomy taxonomy.qza \
+    --i-table table.qza \
+    --i-taxonomy taxonomy.qza \
     --o-complex-table complexes.qza \
-    --o-indices indices.qza --o-mapping mapping.qza</span>
-<span class="dim">Saved SocranskyComplexes to: complexes.qza
-Saved PeriodontalIndices to: indices.qza
-Saved SocranskyMapping to: mapping.qza</span>
+    --o-indices indices.qza \
+    --o-mapping mapping.qza</span>
+<span class="dim">Saved PeriodontalIndices to: indices.qza</span>
 
-<span class="dim">sample  group          SMDI   SMDI_s  PC2014  Red   qc_sp</span>
-ESP37   <span class="t">health</span>        -1.94   -2.40   0.01   0.00  0.84
-ESP58   <span class="t">health</span>        -2.52   -6.08   0.00   0.00  0.58
-ESP16   <span class="a">gingivitis</span>    -0.18   -0.25   0.01   0.00  0.57
-ESP19   <span class="a">gingivitis</span>     0.75   -1.07   0.12   0.00  0.86
-ESP1    <span class="r">periodontitis</span>  1.70    1.64   0.08   0.32  0.93
-ESP3    <span class="r">periodontitis</span>  1.00    3.25   0.04   0.38  0.89</pre>
-      <div class="term-foot"><span>complexes.qza</span><span>indices.qza</span><span>mapping.qza</span><span>summary.qzv</span><span>deltas.qza</span></div>
+<span class="dim">sample  group     SMDI   Red  qc_sp</span>
+ESP37   <span class="t">health</span>   -1.94  0.00  0.84
+ESP58   <span class="t">health</span>   -2.52  0.00  0.58
+ESP16   <span class="a">gingiv.</span>  -0.18  0.00  0.57
+ESP19   <span class="a">gingiv.</span>   0.75  0.00  0.86
+ESP1    <span class="r">perio.</span>    1.70  0.32  0.93
+ESP3    <span class="r">perio.</span>    1.00  0.38  0.89</pre>
+      <div class="term-foot"><span>real values · subjects from PRJNA863881</span><span>Red = Red complex fraction</span><span>qc_sp = reads named to species</span></div>
     </div>
   </div>
 </div>
@@ -346,8 +365,8 @@ ESP3    <span class="r">periodontitis</span>  1.00    3.25   0.04   0.38  0.89</
   <div class="wrap">
     <div class="stat"><b>3</b><span>published measures, every taxon cited</span></div>
     <div class="stat"><b>16</b><span>public 16S datasets in the validation</span></div>
+    <div class="stat"><b>6</b><span>independent cohorts in the meta-analysis</span></div>
     <div class="stat"><b>0.94</b><span>pooled SMDI AUC, periodontitis vs health</span></div>
-    <div class="stat"><b>2</b><span>QIIME 2 releases tested: 2024.10 and 2026.10</span></div>
   </div>
 </div>
 
@@ -360,30 +379,31 @@ ESP3    <span class="r">periodontitis</span>  1.00    3.25   0.04   0.38  0.89</
     </div>
     <div class="pyr-grid">
       <figure class="figure" style="margin:0">
-        <svg viewBox="0 0 520 300" role="img" aria-labelledby="pyr-title">
+        <svg viewBox="0 0 520 318" role="img" aria-labelledby="pyr-title">
           <title id="pyr-title">The Socransky complexes drawn as a pyramid: Red at the apex, Orange in the middle, and Blue, Yellow, Green and Purple at the base</title>
           <style>
-            .pl { font: 600 13px "IBM Plex Sans", system-ui, sans-serif; fill: #fff; }
+            .pl { font: 600 16px "IBM Plex Sans", system-ui, sans-serif; fill: #fff; }
             .pl.dk { fill: #3a2e05; }
-            .pa { font: 12px "IBM Plex Mono", ui-monospace, monospace; fill: var(--muted); }
+            .pa { font: 14px "IBM Plex Mono", ui-monospace, monospace; fill: var(--muted); }
+            .pk { stroke: var(--muted); stroke-width: 1; }
           </style>
           <g stroke="var(--paper)" stroke-width="4" stroke-linejoin="round">
-            <polygon points="260,20 333.8,100 186.2,100" fill="var(--c-red)"/>
-            <polygon points="186.2,100 333.8,100 407.7,180 112.3,180" fill="var(--c-orange)"/>
-            <polygon points="112.3,180 186.15,180 140,280 20,280" fill="var(--c-blue)"/>
-            <polygon points="186.15,180 260,180 260,280 140,280" fill="var(--c-yellow)"/>
-            <polygon points="260,180 333.85,180 380,280 260,280" fill="var(--c-green)"/>
-            <polygon points="333.85,180 407.7,180 500,280 380,280" fill="var(--c-purple)"/>
+            <polygon points="260,20 333.8,100 186.2,100" fill="#c23b33"/>
+            <polygon points="186.2,100 333.8,100 407.7,180 112.3,180" fill="#d06d17"/>
+            <polygon points="112.3,180 186.15,180 140,280 20,280" fill="#2d72b0"/>
+            <polygon points="186.15,180 260,180 260,280 140,280" fill="#d4a514"/>
+            <polygon points="260,180 333.85,180 380,280 260,280" fill="#2a8a52"/>
+            <polygon points="333.85,180 407.7,180 500,280 380,280" fill="#7c43a3"/>
           </g>
-          <text class="pl" x="260" y="80" text-anchor="middle">Red</text>
+          <text class="pl" x="260" y="82" text-anchor="middle">Red</text>
           <text class="pl" x="260" y="146" text-anchor="middle">Orange</text>
-          <text class="pl" x="116" y="236" text-anchor="middle">Blue</text>
-          <text class="pl dk" x="200" y="236" text-anchor="middle">Yellow</text>
-          <text class="pl" x="320" y="236" text-anchor="middle">Green</text>
-          <text class="pl" x="404" y="236" text-anchor="middle">Purple</text>
-          <text class="pa" x="352" y="52">late colonizers</text>
-          <text class="pa" x="420" y="134">bridge</text>
-          <text class="pa" x="20" y="164">early colonizers</text>
+          <text class="pl" x="116" y="238" text-anchor="middle">Blue</text>
+          <text class="pl dk" x="200" y="238" text-anchor="middle">Yellow</text>
+          <text class="pl" x="320" y="238" text-anchor="middle">Green</text>
+          <text class="pl" x="404" y="238" text-anchor="middle">Purple</text>
+          <line class="pk" x1="312" y1="60" x2="340" y2="60"/><text class="pa" x="346" y="65">late</text><text class="pa" x="346" y="82">colonizers</text>
+          <line class="pk" x1="378" y1="140" x2="402" y2="140"/><text class="pa" x="408" y="145">bridge</text>
+          <text class="pa" x="260" y="306" text-anchor="middle">early colonizers</text>
         </svg>
         <figcaption class="cap"><span>After Socransky &amp; Haffajee (2002), Fig. 1. The complexes describe how 40 cultivable species co-occur.</span></figcaption>
       </figure>
@@ -397,21 +417,14 @@ ESP3    <span class="r">periodontitis</span>  1.00    3.25   0.04   0.38  0.89</
       </ul>
     </div>
 
-    <div class="pep">
-      <div class="scroll">
-        <table>
-          <thead><tr><th>Output</th><th>Source</th><th>What it is</th></tr></thead>
-          <tbody>
-            <tr><td class="name">Red … Blue, Other</td><td class="num">Socransky 1998, 2002</td><td class="desc">Fraction of all reads in each complex. Only species on the published panel are assigned; rows sum to 1.</td></tr>
-            <tr><td class="name">SMDI</td><td class="num">Chen et al. 2022</td><td class="desc">Mean CLR of 31 dysbiotic species minus mean CLR of 18 normobiotic species (MDG ≥ 0.4), computed as in the authors' R code.</td></tr>
-            <tr><td class="name">SMDI_simplified</td><td class="num">Chen et al. 2022</td><td class="desc"><em>Fretibacterium</em> and <em>Treponema</em> against <em>Actinomyces</em>. Needs genus names only.</td></tr>
-            <tr><td class="name">SMDI_custom</td><td class="num">your signature</td><td class="desc">Any other signature (<code>taxon</code>, <code>direction</code>, <code>level</code>), computed with the SMDI method.</td></tr>
-            <tr><td class="name">PC2014_moderate</td><td class="num">Pérez-Chaparro et al. 2014</td><td class="desc">Fraction of reads from the 17 taxa with moderate evidence of association with periodontitis, matched by name or HMT number.</td></tr>
-            <tr><td class="name">qc_*</td><td class="num">this plugin</td><td class="desc">Sequencing depth, fraction of reads in any complex, fraction of reads named to species.</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <dl class="outputs">
+      <div class="out"><dt><b>Red … Blue, Other</b><span>Socransky 1998, 2002</span></dt><dd>Fraction of all reads in each complex. Only species on the published panel are assigned; rows sum to 1.</dd></div>
+      <div class="out"><dt><b>SMDI</b><span>Chen et al. 2022</span></dt><dd>Mean CLR of 31 dysbiotic species minus mean CLR of 18 normobiotic species (MDG ≥ 0.4), computed as in the authors' R code.</dd></div>
+      <div class="out"><dt><b>SMDI_simplified</b><span>Chen et al. 2022</span></dt><dd><em>Fretibacterium</em> and <em>Treponema</em> against <em>Actinomyces</em>. Needs genus names only.</dd></div>
+      <div class="out"><dt><b>SMDI_custom</b><span>your own signature</span></dt><dd>Any list of dysbiotic and normobiotic taxa, computed with the SMDI method.</dd></div>
+      <div class="out"><dt><b>PC2014_moderate</b><span>Pérez-Chaparro et al. 2014</span></dt><dd>Fraction of reads from the 17 taxa with moderate evidence of association with periodontitis, matched by name or HMT number.</dd></div>
+      <div class="out"><dt><b>qc_*</b><span>computed by the plugin</span></dt><dd>Sequencing depth, fraction of reads in any complex, fraction of reads named to species.</dd></div>
+    </dl>
     <p class="fineprint">Many taxa that sequencing later tied to periodontitis (<em>Fretibacterium</em>, <em>Filifactor alocis</em>, Saccharibacteria, most <em>Treponema</em>) could not be cultivated in 1998 and are not on the Socransky panel. They stay in <code>Other</code>, and the SMDI and PC2014 capture them.</p>
   </div>
 </section>
@@ -424,12 +437,12 @@ ESP3    <span class="r">periodontitis</span>  1.00    3.25   0.04   0.38  0.89</
       <p>These measures are usually computed by hand, each lab with its own species lists, name versions and pseudocounts, so the numbers do not compare across studies. The plugin fixes every choice, documents it and records it in QIIME 2 provenance.</p>
     </div>
     <div class="features">
-      <div class="feature"><span class="n">01</span><h3>Every taxon cites its source</h3><p>Each row of the complex reference names the figure or sentence of Socransky 1998 or 2002 that supports it. Nothing is extrapolated to whole genera, except the one group the paper names as a genus.</p></div>
-      <div class="feature"><span class="n">02</span><h3>The SMDI as published</h3><p>The original code adds half the smallest non-zero relative abundance of the whole table to every entry, which is not what the paper's text says. The plugin follows the code, and offers a fixed pseudocount when run-independent values are needed.</p></div>
-      <div class="feature"><span class="n">03</span><h3>Names that keep changing</h3><p>Historical names are resolved (<em>Bacteroides forsythus</em> → <em>Tannerella forsythia</em>), eHOMD placeholders are parsed, and unnamed phylotypes are matched by HMT number whatever genus label a database version uses.</p></div>
-      <div class="feature"><span class="n">04</span><h3>Quality control per sample</h3><p>Depth, the fraction of reads in any complex and the fraction named to species are reported for every sample, and SMDI taxa absent from the table are listed in a warning.</p></div>
-      <div class="feature"><span class="n">05</span><h3>An audit of every feature</h3><p>The mapping table states, for each feature, the parsed name, the complex and why: species, genus, ambiguous, unassigned or low confidence.</p></div>
-      <div class="feature"><span class="n">06</span><h3>Statistics that count patients once</h3><p><code>summarize</code> tests one pre-specified grouping and averages the sites of each subject first, so several sites from one mouth do not inflate the evidence.</p></div>
+      <div class="feature"><span class="n">Reference</span><h3>Every taxon cites its source</h3><p>Each row of the complex reference names the figure or sentence of Socransky 1998 or 2002 that supports it. Nothing is extrapolated to whole genera, except the one group the paper names as a genus.</p></div>
+      <div class="feature"><span class="n">SMDI</span><h3>The SMDI as published</h3><p>The original code adds half the smallest non-zero relative abundance of the whole table to every entry, which is not what the paper's text says. The plugin follows the code, and offers a fixed pseudocount when run-independent values are needed.</p></div>
+      <div class="feature"><span class="n">Taxonomy</span><h3>Names that keep changing</h3><p>Historical names are resolved (<em>Bacteroides forsythus</em> → <em>Tannerella forsythia</em>), eHOMD placeholders are parsed, and unnamed phylotypes are matched by HMT number whatever genus label a database version uses.</p></div>
+      <div class="feature"><span class="n">QC</span><h3>Quality control per sample</h3><p>Depth, the fraction of reads in any complex and the fraction named to species are reported for every sample, and SMDI taxa absent from the table are listed in a warning.</p></div>
+      <div class="feature"><span class="n">Audit</span><h3>An audit of every feature</h3><p>The mapping table states, for each feature, the parsed name, the complex and why: species, genus, ambiguous, unassigned or low confidence.</p></div>
+      <div class="feature"><span class="n">Statistics</span><h3>Statistics that count patients once</h3><p><code>summarize</code> tests one pre-specified grouping and averages the sites of each subject first, so several sites from one mouth do not inflate the evidence.</p></div>
     </div>
     <div class="notice">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
@@ -479,69 +492,28 @@ ESP3    <span class="r">periodontitis</span>  1.00    3.25   0.04   0.38  0.89</
       <h2>Tested on 16 public datasets, negative results included.</h2>
       <p>Raw reads from public cohorts were reprocessed with one pipeline and analysed under a plan fixed in advance. Six cohorts independent of the SMDI's derivation enter the primary meta-analysis. The full report, with every deviation from the plan, is in <a href="https://github.com/LaBiOmicS/q2-periobiome/blob/main/docs/VALIDATION.md">docs/VALIDATION.md</a>.</p>
     </div>
-    <figure class="forest" style="margin:0">
-      <div class="scroll">
-        <svg viewBox="0 0 1040 400" role="img" aria-labelledby="fp-title">
-          <title id="fp-title">Pooled AUC for periodontitis versus health in six independent cohorts: SMDI 0.94, SMDI_simplified 0.92, Red complex 0.91, PC2014 0.90, Orange 0.72, Purple 0.36, Green 0.27, Yellow 0.19, Blue 0.18</title>
-          <style>
-            .fl { font: 600 13px "IBM Plex Sans", system-ui, sans-serif; fill: #e9f2ef; }
-            .fv { font: 12px "IBM Plex Mono", ui-monospace, monospace; fill: #a9c0ba; }
-            .fax { font: 12px "IBM Plex Mono", ui-monospace, monospace; fill: #8ea8a2; }
-            .fgrid { stroke: #24423f; stroke-width: 1; }
-            .fmid { stroke: #8ea8a2; stroke-width: 1; stroke-dasharray: 4 4; }
-          </style>
-          <!-- x = 330 + AUC * 680 -->
-          <line class="fgrid" x1="330" y1="40" x2="330" y2="350"/>
-          <line class="fgrid" x1="500" y1="40" x2="500" y2="350"/>
-          <line class="fmid" x1="670" y1="40" x2="670" y2="350"/>
-          <line class="fgrid" x1="840" y1="40" x2="840" y2="350"/>
-          <line class="fgrid" x1="1010" y1="40" x2="1010" y2="350"/>
-          <text class="fax" x="660" y="26" text-anchor="end">← higher in health</text>
-          <text class="fax" x="680" y="26">higher in periodontitis →</text>
-          <text class="fl" x="20" y="26" style="fill:#8ea8a2;font-weight:500;font-size:12px">Measure</text>
-          <text class="fax" x="300" y="26" text-anchor="end">AUC (95% CI)</text>
-
-          <g stroke-width="2.5" stroke-linecap="round">
-            <!-- indices -->
-            <text class="fl" x="20" y="64">SMDI</text><text class="fv" x="300" y="64" text-anchor="end">0.94 (0.91–0.98)</text>
-            <line x1="948.8" y1="60" x2="996.4" y2="60" stroke="#4fd1bd"/><circle cx="969.2" cy="60" r="6" fill="#4fd1bd"/>
-            <text class="fl" x="20" y="96">SMDI_simplified</text><text class="fv" x="300" y="96" text-anchor="end">0.92 (0.89–0.94)</text>
-            <line x1="935.2" y1="92" x2="969.2" y2="92" stroke="#4fd1bd"/><circle cx="955.6" cy="92" r="6" fill="#4fd1bd"/>
-            <text class="fl" x="20" y="128">PC2014_moderate</text><text class="fv" x="300" y="128" text-anchor="end">0.90 (0.86–0.94)</text>
-            <line x1="914.8" y1="124" x2="969.2" y2="124" stroke="#4fd1bd"/><circle cx="942" cy="124" r="6" fill="#4fd1bd"/>
-            <line x1="20" y1="146" x2="1010" y2="146" stroke="#24423f" stroke-width="1"/>
-            <!-- complexes -->
-            <text class="fl" x="20" y="174">Red complex</text><text class="fv" x="300" y="174" text-anchor="end">0.91 (0.88–0.94)</text>
-            <line x1="928.4" y1="170" x2="969.2" y2="170" stroke="#e2645c"/><circle cx="948.8" cy="170" r="6" fill="#e2645c"/>
-            <text class="fl" x="20" y="206">Orange complex</text><text class="fv" x="300" y="206" text-anchor="end">0.72 (0.62–0.81)</text>
-            <line x1="751.6" y1="202" x2="880.8" y2="202" stroke="#f0994a"/><circle cx="819.6" cy="202" r="6" fill="#f0994a"/>
-            <text class="fl" x="20" y="238">Purple complex</text><text class="fv" x="300" y="238" text-anchor="end">0.36 (0.25–0.47)</text>
-            <line x1="500" y1="234" x2="649.6" y2="234" stroke="#b07ad4"/><circle cx="574.8" cy="234" r="6" fill="#b07ad4"/>
-            <text class="fl" x="20" y="270">Green complex</text><text class="fv" x="300" y="270" text-anchor="end">0.27 (0.14–0.40)</text>
-            <line x1="425.2" y1="266" x2="602" y2="266" stroke="#4cbf7c"/><circle cx="513.6" cy="266" r="6" fill="#4cbf7c"/>
-            <text class="fl" x="20" y="302">Yellow complex</text><text class="fv" x="300" y="302" text-anchor="end">0.19 (0.11–0.26)</text>
-            <line x1="404.8" y1="298" x2="506.8" y2="298" stroke="#e8c043"/><circle cx="459.2" cy="298" r="6" fill="#e8c043"/>
-            <text class="fl" x="20" y="334">Blue complex</text><text class="fv" x="300" y="334" text-anchor="end">0.18 (0.13–0.24)</text>
-            <line x1="418.4" y1="330" x2="493.2" y2="330" stroke="#5aa5e0"/><circle cx="452.4" cy="330" r="6" fill="#5aa5e0"/>
-          </g>
-          <text class="fax" x="330" y="374" text-anchor="middle">0</text>
-          <text class="fax" x="500" y="374" text-anchor="middle">0.25</text>
-          <text class="fax" x="670" y="374" text-anchor="middle">0.5</text>
-          <text class="fax" x="840" y="374" text-anchor="middle">0.75</text>
-          <text class="fax" x="1010" y="374" text-anchor="middle">1</text>
-          <text class="fax" x="670" y="394" text-anchor="middle">pooled AUC, periodontitis vs health</text>
-        </svg>
-      </div>
-      <figcaption class="cap"><span>Random-effects meta-analysis (REML, Hartung-Knapp-Sidik-Jonkman) of subject-level AUC in six independent case-control cohorts from Europe, Asia and North America; V4, V3-V4; naive Bayes on eHOMD.</span></figcaption>
+    <figure class="forest" aria-label="Pooled AUC for periodontitis versus health in six independent cohorts">
+      <div class="fp-head"><span>Measure</span><span>AUC (95% CI)</span><span class="fp-dir"><span>← higher in health</span><span>higher in periodontitis →</span></span></div>
+      <div class="fp-row"><span class="fp-name"><i style="background:var(--term-teal)"></i>SMDI</span><span class="fp-val">0.94 (0.91–0.98)</span><span class="fp-track" aria-hidden="true"><span class="fp-ci" style="left:91%;width:7%;background:var(--term-teal)"></span><span class="fp-dot" style="left:94%;background:var(--term-teal)"></span></span></div>
+      <div class="fp-row"><span class="fp-name"><i style="background:var(--term-teal)"></i>SMDI_simplified</span><span class="fp-val">0.92 (0.89–0.94)</span><span class="fp-track" aria-hidden="true"><span class="fp-ci" style="left:89%;width:5%;background:var(--term-teal)"></span><span class="fp-dot" style="left:92%;background:var(--term-teal)"></span></span></div>
+      <div class="fp-row sep"><span class="fp-name"><i style="background:var(--term-teal)"></i>PC2014_moderate</span><span class="fp-val">0.90 (0.86–0.94)</span><span class="fp-track" aria-hidden="true"><span class="fp-ci" style="left:86%;width:8%;background:var(--term-teal)"></span><span class="fp-dot" style="left:90%;background:var(--term-teal)"></span></span></div>
+      <div class="fp-row"><span class="fp-name"><i style="background:#e2645c"></i>Red complex</span><span class="fp-val">0.91 (0.88–0.94)</span><span class="fp-track" aria-hidden="true"><span class="fp-ci" style="left:88%;width:6%;background:#e2645c"></span><span class="fp-dot" style="left:91%;background:#e2645c"></span></span></div>
+      <div class="fp-row"><span class="fp-name"><i style="background:#f0994a"></i>Orange complex</span><span class="fp-val">0.72 (0.62–0.81)</span><span class="fp-track" aria-hidden="true"><span class="fp-ci" style="left:62%;width:19%;background:#f0994a"></span><span class="fp-dot" style="left:72%;background:#f0994a"></span></span></div>
+      <div class="fp-row"><span class="fp-name"><i style="background:#b07ad4"></i>Purple complex</span><span class="fp-val">0.36 (0.25–0.47)</span><span class="fp-track" aria-hidden="true"><span class="fp-ci" style="left:25%;width:22%;background:#b07ad4"></span><span class="fp-dot" style="left:36%;background:#b07ad4"></span></span></div>
+      <div class="fp-row"><span class="fp-name"><i style="background:#4cbf7c"></i>Green complex</span><span class="fp-val">0.27 (0.14–0.40)</span><span class="fp-track" aria-hidden="true"><span class="fp-ci" style="left:14%;width:26%;background:#4cbf7c"></span><span class="fp-dot" style="left:27%;background:#4cbf7c"></span></span></div>
+      <div class="fp-row"><span class="fp-name"><i style="background:#e8c043"></i>Yellow complex</span><span class="fp-val">0.19 (0.11–0.26)</span><span class="fp-track" aria-hidden="true"><span class="fp-ci" style="left:11%;width:15%;background:#e8c043"></span><span class="fp-dot" style="left:19%;background:#e8c043"></span></span></div>
+      <div class="fp-row"><span class="fp-name"><i style="background:#5aa5e0"></i>Blue complex</span><span class="fp-val">0.18 (0.13–0.24)</span><span class="fp-track" aria-hidden="true"><span class="fp-ci" style="left:13%;width:11%;background:#5aa5e0"></span><span class="fp-dot" style="left:18%;background:#5aa5e0"></span></span></div>
+      <div class="fp-axis"><span></span><span></span><span class="fp-scale"><span style="left:0">0</span><span style="left:25%">0.25</span><span style="left:50%">0.5</span><span style="left:75%">0.75</span><span style="left:100%">1</span></span></div>
+      <figcaption class="cap">Pooled AUC, periodontitis vs health. Random-effects meta-analysis (REML, Hartung-Knapp-Sidik-Jonkman) of subject-level AUC in six independent case-control cohorts from Europe, Asia and North America; V4 and V3-V4; naive Bayes on eHOMD.</figcaption>
     </figure>
 
     <div class="findings">
-      <div class="finding"><span class="tag ok">Holds</span><h3>A two-sided, consistent shift</h3><p>Higher Red complex and lower early colonizers, above all <em>Actinomyces</em>, in every cohort, region and classifier. Red: I² = 0%.</p></div>
-      <div class="finding"><span class="tag ok">Holds</span><h3>Tracks severity</h3><p>The SMDI correlates with probing depth, attachment loss and bleeding (Spearman ρ 0.60–0.76) in the two cohorts with clinical data.</p></div>
-      <div class="finding"><span class="tag ok">Holds</span><h3>Falls after therapy</h3><p>The median SMDI fell in all six treated cohorts (p &lt; 0.05 in four) and rose in an untreated control arm.</p></div>
-      <div class="finding"><span class="tag no">Modest</span><h3>SMDI vs Red complex</h3><b class="big">+0.02 AUC</b><p>The 49-species SMDI beats the three Red species only slightly (95% CI 0.008–0.038). The simplified SMDI does not.</p></div>
-      <div class="finding"><span class="tag no">Overlaps</span><h3>Groups, not individuals</h3><b class="big">0.87 / 0.81</b><p>Pooled sensitivity / specificity at the best published cut-off (SMDI &gt; 0.5). About one patient in eight and one healthy subject in five fall on the wrong side.</p></div>
-      <div class="finding"><span class="tag no">Does not hold</span><h3>No prognosis</h3><b class="big">AUC ≈ 0.5</b><p>Baseline values did not identify the sites or patients that failed to respond to therapy.</p></div>
+      <div class="finding"><span class="tag ok">Holds</span><b class="big">I² = 0%</b><h3>A two-sided, consistent shift</h3><p>Higher Red complex and lower early colonizers, above all <em>Actinomyces</em>, in every cohort, 16S region and classifier.</p></div>
+      <div class="finding"><span class="tag ok">Holds</span><b class="big">ρ 0.60–0.76</b><h3>Tracks severity</h3><p>The SMDI correlates with probing depth, attachment loss and bleeding in the two cohorts with clinical data.</p></div>
+      <div class="finding"><span class="tag ok">Holds</span><b class="big">6 of 6</b><h3>Falls after therapy</h3><p>The median SMDI fell in every treated cohort (p &lt; 0.05 in four) and rose in an untreated control arm.</p></div>
+      <div class="finding"><span class="tag no">Modest</span><b class="big">+0.02 AUC</b><h3>SMDI vs Red complex</h3><p>The 49-species SMDI beats the three Red species only slightly (95% CI 0.008–0.038). The simplified SMDI does not.</p></div>
+      <div class="finding"><span class="tag no">Overlaps</span><b class="big">0.87 / 0.81</b><h3>Groups, not individuals</h3><p>Pooled sensitivity and specificity at the best published cut-off (SMDI &gt; 0.5): about one patient in eight and one healthy subject in five fall on the wrong side.</p></div>
+      <div class="finding"><span class="tag no">Does not hold</span><b class="big">AUC ≈ 0.5</b><h3>No prognosis</h3><p>Baseline values did not identify the sites or patients that failed to respond to therapy.</p></div>
     </div>
     <p class="val-foot">The validation was run under the plugin's earlier name, q2-periodontitis, with the same code. Absolute SMDI values shift with 16S region and pseudocount; ranking and AUC do not. Compare values computed with one pipeline.</p>
   </div>
@@ -579,8 +551,8 @@ qiime periobiome --help</pre></div>
         <div class="tabpanel" id="p-old" role="tabpanel" aria-labelledby="t-old" hidden>
           <p>The last release of the separate amplicon distribution that the plugin is tested on.</p>
           <div class="code"><button class="copy" type="button">Copy</button><pre>wget https://data.qiime2.org/distro/amplicon/qiime2-amplicon-2024.10-py310-linux-conda.yml
-conda env create -n qiime2-amplicon-2024.10 --file qiime2-amplicon-2024.10-py310-linux-conda.yml
-conda activate qiime2-amplicon-2024.10
+conda env create -n qiime2-2024.10 --file qiime2-amplicon-2024.10-py310-linux-conda.yml
+conda activate qiime2-2024.10
 pip install --no-deps git+https://github.com/LaBiOmicS/q2-periobiome.git
 qiime dev refresh-cache</pre></div>
         </div>
@@ -613,18 +585,26 @@ pytest &amp;&amp; flake8</pre></div>
     </div>
     <div class="recipes">
       <div class="recipe"><h3>Complexes, indices and QC</h3><p>The core action. Raw counts and a species-level taxonomy in.</p><pre>qiime periobiome collapse-complexes \
-  --i-table table.qza --i-taxonomy taxonomy.qza \
+  --i-table table.qza \
+  --i-taxonomy taxonomy.qza \
   --o-complex-table complexes.qza \
-  --o-indices indices.qza --o-mapping mapping.qza</pre></div>
+  --o-indices indices.qza \
+  --o-mapping mapping.qza</pre></div>
       <div class="recipe"><h3>Group report, one unit per patient</h3><p>Tests only the column you name, after averaging each subject's sites.</p><pre>qiime periobiome summarize \
-  --i-complexes complexes.qza --i-indices indices.qza \
-  --i-mapping mapping.qza --m-metadata-file metadata.tsv \
-  --p-group-column status --p-subject-column subject \
+  --i-complexes complexes.qza \
+  --i-indices indices.qza \
+  --i-mapping mapping.qza \
+  --m-metadata-file metadata.tsv \
+  --p-group-column status \
+  --p-subject-column subject \
   --o-visualization summary.qzv</pre></div>
       <div class="recipe"><h3>Change after therapy</h3><p>Follow-up minus baseline for every index, per subject (or per site).</p><pre>qiime periobiome delta-indices \
-  --i-indices indices.qza --m-metadata-file metadata.tsv \
-  --p-subject-col subject --p-group-col visit \
-  --p-baseline-group baseline --p-target-group follow-up \
+  --i-indices indices.qza \
+  --m-metadata-file metadata.tsv \
+  --p-subject-col subject \
+  --p-group-col visit \
+  --p-baseline-group baseline \
+  --p-target-group follow-up \
   --o-delta-table deltas.qza</pre></div>
       <div class="recipe"><h3>Your own dysbiosis signature</h3><p>Any list of dysbiotic and normobiotic taxa, computed with the SMDI method as <code>SMDI_custom</code>.</p><pre>qiime tools import --type DysbiosisSignature \
   --input-path my-signature.tsv \

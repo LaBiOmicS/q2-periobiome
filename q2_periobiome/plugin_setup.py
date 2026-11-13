@@ -35,7 +35,7 @@ citations = Citations.load('citations.bib', package='q2_periobiome')
 plugin = Plugin(
     name='periobiome',
     version=__version__,
-    website='https://github.com/LaBiOmicS/q2-periobiome',
+    website='https://labiomics.github.io/q2-periobiome/',
     package='q2_periobiome',
     citations=[citations['socransky1998microbial'], citations['socransky2002dental']],
     description='Socransky complexes and dysbiosis indices for '
